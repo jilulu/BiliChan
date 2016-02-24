@@ -33,7 +33,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 public void onClick(View v) {
                     Intent museAmwayIntent = new Intent(context, MuseMemberActivity.class);
                     String intentKey = Intent.EXTRA_TEXT;
-                    museAmwayIntent.putExtra(intentKey, ((TextView)mCardView.findViewById(R.id.full_ja_name)).getText());
+                    museAmwayIntent.putExtra(intentKey,
+                            ((TextView)mCardView.findViewById(R.id.full_ja_name)).getText().toString() + "0"
+                                    + ((TextView)mCardView.findViewById(R.id.hiragana_name)).getText().toString());
                     mCardView.getContext().startActivity(museAmwayIntent);
                 }
             });
