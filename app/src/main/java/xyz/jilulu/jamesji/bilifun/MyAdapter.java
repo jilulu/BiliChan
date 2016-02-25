@@ -21,9 +21,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public CardView mCardView;
+
         public ViewHolder(CardView cardView) {
             super(cardView);
             mCardView = cardView;
@@ -31,11 +32,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             mCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent museAmwayIntent = new Intent(context, MuseMemberActivity.class);
+                    Intent museAmwayIntent = new Intent(context, RefactoredMuseMember.class);
                     String intentKey = Intent.EXTRA_TEXT;
                     museAmwayIntent.putExtra(intentKey,
-                            ((TextView)mCardView.findViewById(R.id.full_ja_name)).getText().toString() + "0"
-                                    + ((TextView)mCardView.findViewById(R.id.hiragana_name)).getText().toString());
+                            ((TextView) mCardView.findViewById(R.id.full_ja_name)).getText());
                     mCardView.getContext().startActivity(museAmwayIntent);
                 }
             });
@@ -52,7 +52,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.my_card_view, parent, false);
+                .inflate(R.layout.activity_main_recycler_cardview_structure, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
         ViewHolder vh = new ViewHolder((CardView) v);
@@ -66,7 +66,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         // - replace the contents of the view with that element
         String sepChar = "（";
         String[] museMemberNameStrings = mDataset.get(position).getMuseMemberName().split(sepChar);
-        museMemberNameStrings[1] = museMemberNameStrings[1].substring(0,museMemberNameStrings[1].length()-1);
+        museMemberNameStrings[1] = museMemberNameStrings[1].substring(0, museMemberNameStrings[1].length() - 1);
         ((TextView) holder.mCardView.findViewById(R.id.full_ja_name)).setText(museMemberNameStrings[0]);
         ((TextView) holder.mCardView.findViewById(R.id.hiragana_name)).setText(museMemberNameStrings[1]);
         ((ImageView) holder.mCardView.findViewById(R.id.awesome_muse_member_image_view)).setImageResource(

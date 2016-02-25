@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MuseMemberActivity"
+            android:name=".RefactoredMuseMember"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
