@@ -1,5 +1,8 @@
 package xyz.jilulu.jamesji.bilifun;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by jamesji on 25/2/2016.
@@ -65,6 +70,13 @@ public class MuseMemberAdapter extends RecyclerView.Adapter<MuseMemberAdapter.Vi
         basicText.setText(liveMuseMember.getBasics());
         mangaText.setText(liveMuseMember.getMangaText());
         animeText.setText(liveMuseMember.getAnimeText());
+
+        Context context = holder.mCardView.getContext();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sharedPreferences.getBoolean("use_new_res_set", false)) {
+            String req = "http://android.jilulu.xyz/an_res/" + liveMuseMember.getRomaji().split(" ")[1].toLowerCase() + ".jpg";
+            Picasso.with(context).load(req).into(profile);
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

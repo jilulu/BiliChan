@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/museMemberRecyclerView"
-        tool:listitem="@layout/activity_muse_member_recycler_view.xml">
+        tool:listitem="@layout/activity_muse_member_recycler_view">
 
     </android.support.v7.widget.RecyclerView>
 </FrameLayout>

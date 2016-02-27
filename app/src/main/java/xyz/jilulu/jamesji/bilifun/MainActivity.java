@@ -1,9 +1,12 @@
 package xyz.jilulu.jamesji.bilifun;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,26 @@ public class MainActivity extends AppCompatActivity {
 
         mAdapter = new MyAdapter(museMemberList);
         mRecyclerView.setAdapter(mAdapter);
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_settings:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     private List<MuseMember> initMuseMembers() {
@@ -59,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                     museAvatarResourceID = R.drawable.nico_low_res;
                     break;
                 case "東條 希（とうじょう のぞみ）":
-                    museAvatarResourceID = R.drawable.nozami_low_res;
+                    museAvatarResourceID = R.drawable.nozomi_low_res;
                     break;
                 case "絢瀬 絵里（あやせ えり）":
                     museAvatarResourceID = R.drawable.eri_low_res;

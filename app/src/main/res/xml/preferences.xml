@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Display">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/res_pref_key"
+            android:summary="Lower quality"
+            android:title="Swap Image Set" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Metadata">
+        <PreferenceScreen
+            android:summary="Learn more about this project"
+            android:title="About">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://jilulu.xyz" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+</PreferenceScreen>

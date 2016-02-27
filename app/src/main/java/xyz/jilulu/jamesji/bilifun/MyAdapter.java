@@ -32,7 +32,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             mCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent museAmwayIntent = new Intent(context, RefactoredMuseMember.class);
+                    Intent museAmwayIntent = new Intent(context, RefactoredMuseMemberActivity.class);
                     String intentKey = Intent.EXTRA_TEXT;
                     museAmwayIntent.putExtra(intentKey,
                             ((TextView) mCardView.findViewById(R.id.full_ja_name)).getText());
