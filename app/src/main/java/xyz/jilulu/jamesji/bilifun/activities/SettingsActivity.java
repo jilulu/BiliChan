@@ -19,6 +19,7 @@ public class SettingsActivity extends AppCompatActivity {
         getFragmentManager().beginTransaction().replace(android.R.id.content, new PrefsFragment()).commit();
     }
 
+
     public static class PrefsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.preferences);
             getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
             Preference pref = findPreference("use_new_res_set");
-            pref.setSummary(pref.getPreferenceManager().getSharedPreferences().getBoolean("use_new_res_set",false) ? "Higher quality" : "Lower quality");
+            pref.setSummary(pref.getPreferenceManager().getSharedPreferences().getBoolean("use_new_res_set", false) ? "Higher quality" : "Lower quality");
         }
 
         @Override
@@ -39,5 +40,4 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
     }
-
 }

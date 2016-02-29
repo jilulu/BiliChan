@@ -6,4 +6,9 @@
     <string name="res_pref_key">use_new_res_set</string>
     <string name="title_activity_gallery">GalleryActivity</string>
     <string name="action_settings">Settings</string>
+    <string name="about_pref_key">about</string>
+
+    <string name="title_activity_fullscreen">Preview</string>
+    <string name="dummy_button">Download &#38; Save</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

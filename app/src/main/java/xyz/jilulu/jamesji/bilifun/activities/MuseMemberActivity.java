@@ -15,7 +15,7 @@ import xyz.jilulu.jamesji.bilifun.R;
 /**
  * Created by jamesji on 25/2/2016.
  */
-public class RefactoredMuseMemberActivity extends AppCompatActivity {
+public class MuseMemberActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;

@@ -1,6 +1,7 @@
 package xyz.jilulu.jamesji.bilifun.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
@@ -13,8 +14,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import xyz.jilulu.jamesji.bilifun.helpers.MuseMemberProfiles;
 import xyz.jilulu.jamesji.bilifun.R;
+import xyz.jilulu.jamesji.bilifun.activities.FullscreenActivity;
+import xyz.jilulu.jamesji.bilifun.helpers.MuseMemberProfiles;
 
 /**
  * Created by jamesji on 25/2/2016.
@@ -75,11 +77,25 @@ public class MuseMemberAdapter extends RecyclerView.Adapter<MuseMemberAdapter.Vi
         animeText.setText(liveMuseMember.getAnimeText());
 
         Context context = holder.mCardView.getContext();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (sharedPreferences.getBoolean("use_new_res_set", false)) {
-            String req = "http://android.jilulu.xyz/an_res/" + liveMuseMember.getRomaji().split(" ")[1].toLowerCase() + ".jpg";
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final boolean newRes = sharedPreferences.getBoolean("use_new_res_set", true);
+        String req;
+        if (newRes) {
+            req = "http://android.jilulu.xyz/an_res/" + liveMuseMember.getRomaji().split(" ")[1].toLowerCase() + ".jpg";
             Picasso.with(context).load(req).into(profile);
         }
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] extras = {liveMuseMember.getJaName(), Integer.toString(liveMuseMember.getResID()), liveMuseMember.getRomaji()};
+                if (newRes) {
+                    extras[1] = "http://android.jilulu.xyz/an_res/" + liveMuseMember.getRomaji().split(" ")[1].toLowerCase() + ".jpg";
+                }
+                Intent fullScreenIntent=  new Intent(v.getContext(), FullscreenActivity.class).putExtra(Intent.EXTRA_TEXT, extras);
+                v.getContext().startActivity(fullScreenIntent);
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)

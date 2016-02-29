@@ -2,7 +2,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="Display">
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:id="@+id/better_image_quality"
+            android:defaultValue="true"
             android:key="@string/res_pref_key"
             android:summary="Lower quality"
             android:title="Swap Image Set" />
@@ -11,7 +12,8 @@
     <PreferenceCategory android:title="Metadata">
         <PreferenceScreen
             android:summary="Learn more about this project"
-            android:title="About">
+            android:title="About"
+            android:key="@string/about_pref_key">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://jilulu.xyz" />

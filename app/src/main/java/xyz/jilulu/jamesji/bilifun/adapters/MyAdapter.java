@@ -14,7 +14,7 @@ import java.util.List;
 
 import xyz.jilulu.jamesji.bilifun.helpers.MuseMember;
 import xyz.jilulu.jamesji.bilifun.R;
-import xyz.jilulu.jamesji.bilifun.activities.RefactoredMuseMemberActivity;
+import xyz.jilulu.jamesji.bilifun.activities.MuseMemberActivity;
 
 /**
  * Created by jamesji on 23/2/2016.
@@ -36,7 +36,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             mCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent museAmwayIntent = new Intent(context, RefactoredMuseMemberActivity.class);
+                    Intent museAmwayIntent = new Intent(context, MuseMemberActivity.class);
                     String intentKey = Intent.EXTRA_TEXT;
                     museAmwayIntent.putExtra(intentKey,
                             ((TextView) mCardView.findViewById(R.id.full_ja_name)).getText());
