@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/gallery_card_image_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/gallery_placeholder"
+            android:adjustViewBounds="true"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:text="Author"
+                android:padding="3sp"
+                android:layout_margin="5dp"
+                android:id="@+id/gallery_card_author_title"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Some text"
+                android:layout_toRightOf="@id/gallery_card_author_title"
+                android:background="@drawable/rounded_corner"
+                android:padding="3sp"
+                android:textColor="#000"
+                android:id="@+id/gallery_card_author"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:text="File size"
+                android:padding="3sp"
+                android:layout_margin="5dp"
+                android:id="@+id/gallery_card_size_title"
+                android:layout_below="@id/gallery_card_author_title"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Some text"
+                android:background="@drawable/rounded_corner"
+                android:padding="3sp"
+                android:textColor="#000"
+                android:id="@+id/gallery_card_size"
+                android:layout_toRightOf="@id/gallery_card_size_title"
+                android:layout_below="@id/gallery_card_author"
+                />
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:src="@drawable/view_fullsize" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

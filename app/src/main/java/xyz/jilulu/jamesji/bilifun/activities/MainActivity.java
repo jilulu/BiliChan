@@ -1,4 +1,4 @@
-package xyz.jilulu.jamesji.bilifun;
+package xyz.jilulu.jamesji.bilifun.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,10 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import xyz.jilulu.jamesji.bilifun.helpers.MuseMember;
+import xyz.jilulu.jamesji.bilifun.adapters.MyAdapter;
+import xyz.jilulu.jamesji.bilifun.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_item_settings:
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                break;
+            case R.id.wallpapers:
+                startActivity(new Intent(MainActivity.this, GalleryActivity.class));
                 break;
             default:
                 break;

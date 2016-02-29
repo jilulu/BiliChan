@@ -1,4 +1,4 @@
-package xyz.jilulu.jamesji.bilifun;
+package xyz.jilulu.jamesji.bilifun.adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import xyz.jilulu.jamesji.bilifun.helpers.MuseMemberProfiles;
+import xyz.jilulu.jamesji.bilifun.R;
 
 /**
  * Created by jamesji on 25/2/2016.

@@ -1,10 +1,12 @@
-package xyz.jilulu.jamesji.bilifun;
+package xyz.jilulu.jamesji.bilifun.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
+
+import xyz.jilulu.jamesji.bilifun.R;
 
 /**
  * Created by jamesji on 25/2/2016.

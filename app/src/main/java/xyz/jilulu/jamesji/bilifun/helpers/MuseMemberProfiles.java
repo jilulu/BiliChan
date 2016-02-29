@@ -1,4 +1,6 @@
-package xyz.jilulu.jamesji.bilifun;
+package xyz.jilulu.jamesji.bilifun.helpers;
+
+import xyz.jilulu.jamesji.bilifun.R;
 
 /**
  * Created by jamesji on 25/2/2016.
