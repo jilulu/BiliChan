@@ -1,4 +1,4 @@
-package xyz.jilulu.jamesji.bilifun.adapters;
+package xyz.jilulu.bilifun.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +14,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import xyz.jilulu.jamesji.bilifun.R;
-import xyz.jilulu.jamesji.bilifun.activities.FullscreenActivity;
-import xyz.jilulu.jamesji.bilifun.helpers.MuseMemberProfiles;
+import xyz.jilulu.bilifun.R;
+import xyz.jilulu.bilifun.activities.FullscreenActivity;
+import xyz.jilulu.bilifun.activities.GalleryActivity;
+import xyz.jilulu.bilifun.helpers.MuseMemberProfiles;
 
 /**
  * Created by jamesji on 25/2/2016.
@@ -67,6 +68,7 @@ public class MuseMemberAdapter extends RecyclerView.Adapter<MuseMemberAdapter.Vi
         TextView basicText = (TextView) commonParent.findViewById(R.id.basicsText);
         TextView mangaText = (TextView) commonParent.findViewById(R.id.mangaText);
         TextView animeText = (TextView) commonParent.findViewById(R.id.animeText);
+        TextView textViewGalleryEntrance = (TextView) commonParent.findViewById(R.id.card_gallery_entrance);
 
         profile.setImageResource(liveMuseMember.getResID());
         jaName.setText(liveMuseMember.getJaName());
@@ -94,6 +96,16 @@ public class MuseMemberAdapter extends RecyclerView.Adapter<MuseMemberAdapter.Vi
                 }
                 Intent fullScreenIntent=  new Intent(v.getContext(), FullscreenActivity.class).putExtra(Intent.EXTRA_TEXT, extras);
                 v.getContext().startActivity(fullScreenIntent);
+            }
+        });
+
+        textViewGalleryEntrance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), GalleryActivity.class);
+                String[] activityInfo = {liveMuseMember.getJaName(), liveMuseMember.getKonaID()};
+                intent.putExtra(Intent.EXTRA_TEXT, activityInfo);
+                v.getContext().startActivity(intent);
             }
         });
     }

@@ -1,4 +1,4 @@
-package xyz.jilulu.jamesji.bilifun.activities;
+package xyz.jilulu.bilifun.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,10 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
+import android.view.MenuItem;
 
-import xyz.jilulu.jamesji.bilifun.adapters.MuseMemberAdapter;
-import xyz.jilulu.jamesji.bilifun.helpers.MuseMemberProfiles;
-import xyz.jilulu.jamesji.bilifun.R;
+import xyz.jilulu.bilifun.adapters.MuseMemberAdapter;
+import xyz.jilulu.bilifun.helpers.MuseMemberProfiles;
+import xyz.jilulu.bilifun.R;
 
 /**
  * Created by jamesji on 25/2/2016.
@@ -23,6 +24,17 @@ public class MuseMemberActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+        }
+        return true;
     }
 
     @Override

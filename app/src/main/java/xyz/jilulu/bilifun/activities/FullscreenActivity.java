@@ -1,4 +1,4 @@
-package xyz.jilulu.jamesji.bilifun.activities;
+package xyz.jilulu.bilifun.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,7 +27,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okio.Okio;
-import xyz.jilulu.jamesji.bilifun.R;
+import xyz.jilulu.bilifun.R;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -150,8 +149,10 @@ public class FullscreenActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             // This ID represents the Home or Up button.
-            NavUtils.navigateUpTo(this, new Intent(this, MuseMemberActivity.class).putExtra(Intent.EXTRA_TEXT, extras[0]));
-            return true;
+//            if (extras[1].contains("konachan"))
+                finish();
+//            NavUtils.navigateUpTo(this, new Intent(this, MuseMemberActivity.class).putExtra(Intent.EXTRA_TEXT, extras[0]));
+//            return true;
         }
         return super.onOptionsItemSelected(item);
     }

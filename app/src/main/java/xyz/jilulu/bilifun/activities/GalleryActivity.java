@@ -1,5 +1,6 @@
-package xyz.jilulu.jamesji.bilifun.activities;
+package xyz.jilulu.bilifun.activities;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
@@ -18,9 +21,9 @@ import java.util.ArrayList;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import xyz.jilulu.jamesji.bilifun.R;
-import xyz.jilulu.jamesji.bilifun.adapters.KonaAdapter;
-import xyz.jilulu.jamesji.bilifun.helpers.KonaObject;
+import xyz.jilulu.bilifun.R;
+import xyz.jilulu.bilifun.adapters.KonaAdapter;
+import xyz.jilulu.bilifun.helpers.KonaObject;
 
 /**
  * Created by jamesji on 27/2/2016.
@@ -35,8 +38,22 @@ public class GalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
+        String[] origActivityInfo = getIntent().getStringArrayExtra(Intent.EXTRA_TEXT);
+        boolean startedFromMuseMemberActivity = (origActivityInfo != null);
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        else {
+            Toast.makeText(GalleryActivity.this, "Where's my ActionBar? ", Toast.LENGTH_SHORT).show();
+        }
+        //http://konachan.net/post?tags=kousaka_honoka%20order:fav%20rating:safe
+        String url = "http://konachan.net/post.json?tags="
+                + (startedFromMuseMemberActivity ? origActivityInfo[1] : "love_live!_school_idol_project")
+                + "%20order:score%20rating:safe";
+        Log.d("OKHTTP", url);
         parser mParser = new parser();
-        mParser.execute("http://konachan.com/post.json?tags=nishikino_maki");
+        mParser.execute(url);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.gallery_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -63,7 +80,6 @@ public class GalleryActivity extends AppCompatActivity {
         protected Void doInBackground(String... params) {
             try {
                 json = run(params[0]);
-                Log.i("OKHTTP/Success", "GET successful");
             } catch (IOException e) {
                 Log.e("OKHTTP/ERROR", e.toString());
             }
@@ -73,7 +89,6 @@ public class GalleryActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             JsonArray array = (JsonArray) parser.parse(json);
-            System.out.println(array.get(0).getAsJsonObject().get("preview_url"));
             ArrayList<KonaObject> konaObjectArrayList = parseKonaObjects(array);
             mAdapter = new KonaAdapter(konaObjectArrayList);
             mRecyclerView.setAdapter(mAdapter);
@@ -90,5 +105,16 @@ public class GalleryActivity extends AppCompatActivity {
             konaObjects.add(new KonaObject(ja.get(i).getAsJsonObject()));
         }
         return konaObjects;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+        }
+        return true;
     }
 }

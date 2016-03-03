@@ -1,4 +1,4 @@
-package xyz.jilulu.jamesji.bilifun;
+package xyz.jilulu.bilifun;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

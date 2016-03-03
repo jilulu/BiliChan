@@ -1,4 +1,4 @@
-package xyz.jilulu.jamesji.bilifun.activities;
+package xyz.jilulu.bilifun.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +11,9 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import xyz.jilulu.jamesji.bilifun.helpers.MuseMember;
-import xyz.jilulu.jamesji.bilifun.adapters.MyAdapter;
-import xyz.jilulu.jamesji.bilifun.R;
+import xyz.jilulu.bilifun.helpers.MuseMember;
+import xyz.jilulu.bilifun.adapters.MyAdapter;
+import xyz.jilulu.bilifun.R;
 
 public class MainActivity extends AppCompatActivity {
 

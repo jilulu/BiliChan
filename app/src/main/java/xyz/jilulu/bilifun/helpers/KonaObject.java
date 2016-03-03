@@ -1,4 +1,4 @@
-package xyz.jilulu.jamesji.bilifun.helpers;
+package xyz.jilulu.bilifun.helpers;
 
 import com.google.gson.JsonObject;
 

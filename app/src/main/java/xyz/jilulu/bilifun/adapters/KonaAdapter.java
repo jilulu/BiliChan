@@ -1,5 +1,6 @@
-package xyz.jilulu.jamesji.bilifun.adapters;
+package xyz.jilulu.bilifun.adapters;
 
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,12 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import xyz.jilulu.jamesji.bilifun.R;
-import xyz.jilulu.jamesji.bilifun.helpers.KonaObject;
+import xyz.jilulu.bilifun.R;
+import xyz.jilulu.bilifun.activities.RevolutionaryPhotoView;
+import xyz.jilulu.bilifun.helpers.KonaObject;
 
 /**
  * Created by jamesji on 29/2/2016.
@@ -23,7 +26,7 @@ public class KonaAdapter extends RecyclerView.Adapter<KonaAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public CardView mCardView;
-        public ImageView img;
+        public ImageView img, icon;
         public TextView author, size;
 
         public ViewHolder(CardView cardView) {
@@ -32,6 +35,7 @@ public class KonaAdapter extends RecyclerView.Adapter<KonaAdapter.ViewHolder> {
             img = (ImageView) mCardView.findViewById(R.id.gallery_card_image_view);
             author = (TextView) mCardView.findViewById(R.id.gallery_card_author);
             size = (TextView) mCardView.findViewById(R.id.gallery_card_size);
+            icon = (ImageView) mCardView.findViewById(R.id.gallery_card_status_icon);
         }
     }
 
@@ -55,10 +59,40 @@ public class KonaAdapter extends RecyclerView.Adapter<KonaAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        KonaObject obj = mDataset.get(position);
+        final ViewHolder mViewHolder = holder;
+        Callback imageDownloaded = new Callback() {
+            @Override
+            public void onSuccess() {
+                mViewHolder.icon.setImageResource(R.drawable.view_done);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        };
+
+        final KonaObject obj = mDataset.get(position);
         Picasso.with(holder.mCardView.getContext())
                 .load(obj.getPreviewURL())
-                .into(holder.img);
+                .into(holder.img, imageDownloaded);
+//        holder.img.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent fullScreenIntent = new Intent(v.getContext(), FullscreenActivity.class);
+//                String[] extraTexts = {"", obj.getFullSizeURL()};
+//                fullScreenIntent.putExtra(Intent.EXTRA_TEXT, extraTexts);
+//                v.getContext().startActivity(fullScreenIntent);
+//            }
+//        });
+        holder.mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent revolutionaryIntent = new Intent(v.getContext(), RevolutionaryPhotoView.class);
+                revolutionaryIntent.putExtra(Intent.EXTRA_TEXT, obj.getLargeSizeURL());
+                v.getContext().startActivity(revolutionaryIntent);
+            }
+        });
         holder.author.setText(obj.getAuthor());
         holder.size.setText(Integer.toString(obj.getFileSize()));
     }

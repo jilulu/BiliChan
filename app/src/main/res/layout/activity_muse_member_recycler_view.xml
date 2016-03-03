@@ -13,6 +13,7 @@
         android:id="@+id/commonParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageView
             android:layout_width="120dp"
             android:layout_height="120dp"
@@ -146,6 +147,28 @@
             android:layout_marginBottom="20dp"
             android:id="@+id/animeText"
             />
+
+        <View
+            android:layout_below="@id/animeText"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20sp"
+            android:layout_below="@id/animeText"
+            android:id="@+id/card_gallery_entrance"
+            android:text="Enter Gallery"
+            android:textSize="25sp"
+            android:gravity="center"
+            android:textColor="#FFFF4081"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            />
+
 
     </RelativeLayout>
 

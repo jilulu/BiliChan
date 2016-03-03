@@ -5,8 +5,8 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "xyz.jilulu.jamesji.bilifun"
-        minSdkVersion 21
+        applicationId "xyz.jilulu.bilifun"
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -31,4 +31,6 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.squareup.okio:okio:1.6.0'
     compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.commit451:PhotoView:1.2.4'
+
 }

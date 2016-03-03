@@ -2,7 +2,9 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,6 +73,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:src="@drawable/view_fullsize" />
+            android:src="@drawable/view_cloud_downloading"
+            android:id="@+id/gallery_card_status_icon"
+            android:paddingRight="5dp"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

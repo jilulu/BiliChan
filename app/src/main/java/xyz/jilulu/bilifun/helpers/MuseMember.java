@@ -1,4 +1,4 @@
-package xyz.jilulu.jamesji.bilifun.helpers;
+package xyz.jilulu.bilifun.helpers;
 
 /**
  * Created by jamesji on 23/2/2016.

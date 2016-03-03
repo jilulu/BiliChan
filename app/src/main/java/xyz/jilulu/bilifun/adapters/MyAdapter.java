@@ -1,4 +1,4 @@
-package xyz.jilulu.jamesji.bilifun.adapters;
+package xyz.jilulu.bilifun.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import xyz.jilulu.jamesji.bilifun.helpers.MuseMember;
-import xyz.jilulu.jamesji.bilifun.R;
-import xyz.jilulu.jamesji.bilifun.activities.MuseMemberActivity;
+import xyz.jilulu.bilifun.helpers.MuseMember;
+import xyz.jilulu.bilifun.R;
+import xyz.jilulu.bilifun.activities.MuseMemberActivity;
 
 /**
  * Created by jamesji on 23/2/2016.
