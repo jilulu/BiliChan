@@ -76,15 +76,7 @@ public class KonaAdapter extends RecyclerView.Adapter<KonaAdapter.ViewHolder> {
         Picasso.with(holder.mCardView.getContext())
                 .load(obj.getPreviewURL())
                 .into(holder.img, imageDownloaded);
-//        holder.img.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent fullScreenIntent = new Intent(v.getContext(), FullscreenActivity.class);
-//                String[] extraTexts = {"", obj.getFullSizeURL()};
-//                fullScreenIntent.putExtra(Intent.EXTRA_TEXT, extraTexts);
-//                v.getContext().startActivity(fullScreenIntent);
-//            }
-//        });
+
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

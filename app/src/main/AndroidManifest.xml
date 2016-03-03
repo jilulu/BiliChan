@@ -6,7 +6,9 @@
     <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
     <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission-sdk-23 android:name="android.permission.VIBRATE"/>
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -48,16 +50,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         -->
-        <activity
-            android:name=".activities.FullscreenActivity"
-            android:label="@string/title_activity_fullscreen"
-            android:theme="@style/FullscreenTheme">
-        <!--android:configChanges="orientation|keyboardHidden|screenSize"
-        android:parentActivityName=".activities.MuseMemberActivity"
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MuseMemberActivity" />-->
-        </activity>
         <activity android:name=".activities.RevolutionaryPhotoView"/>
     </application>
 

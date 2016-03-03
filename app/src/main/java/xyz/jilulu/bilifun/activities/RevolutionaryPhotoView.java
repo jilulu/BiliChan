@@ -1,16 +1,21 @@
 package xyz.jilulu.bilifun.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +23,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -27,6 +34,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
+import okio.BufferedSink;
 import okio.BufferedSource;
 import okio.ForwardingSource;
 import okio.Okio;
@@ -49,6 +57,7 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
 
     private Matrix mCurrentDisplayMatrix = null;
 
+    private String url;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +69,7 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
 
         final ImageView mImageView = (ImageView) findViewById(R.id.iv_photo);
         mCurrMatrixTv = (TextView) findViewById(R.id.tv_current_matrix);
-        String url = getIntent().getStringExtra(Intent.EXTRA_TEXT);
+        url = getIntent().getStringExtra(Intent.EXTRA_TEXT);
 
         imageDownload dl = new imageDownload();
 
@@ -72,8 +81,13 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
         // Lets attach some listeners, not required though!
         mAttacher.setOnMatrixChangeListener(new MatrixChangeListener());
         mAttacher.setOnPhotoTapListener(new PhotoTapListener());
+        Toast.makeText(RevolutionaryPhotoView.this, "Beginning download. ", Toast.LENGTH_SHORT).show();
+    }
 
-        Toast.makeText(RevolutionaryPhotoView.this, "Begining download. ", Toast.LENGTH_SHORT).show();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.awesome_photo, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -82,11 +96,43 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 break;
+            case R.id.save:
+                try {
+                    saveToDisk();
+                } catch (IOException e) {
+                    Log.e("OKIO", e.toString());
+                }
+                break;
             default:
                 break;
         }
         return true;
     }
+
+    private boolean saveToDisk() throws IOException {
+        if (bmpBytes == null) {
+            Toast.makeText(RevolutionaryPhotoView.this, "Please wait until download finished", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (ActivityCompat.checkSelfPermission(RevolutionaryPhotoView.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(RevolutionaryPhotoView.this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+            return false;
+        }
+        // Permission granted.
+        Calendar cal = Calendar.getInstance();
+        File path = Environment.getExternalStorageDirectory();
+        File file = new File(path, "Download/" + cal.get(Calendar.YEAR)
+                        + (cal.get(Calendar.MONTH) <= 9 ? "0"+cal.get(Calendar.MONTH) : "" + cal.get(Calendar.MONTH))
+                        + (cal.get(Calendar.DATE)  <= 9 ? "0"+cal.get(Calendar.DATE)  : "" + cal.get(Calendar.DATE))
+                        + "." + url.hashCode() + ".jpg");
+        BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
+        bufferedSink.write(bmpBytes);
+        bufferedSink.close();
+        Toast.makeText(RevolutionaryPhotoView.this, "Saved to the Download folder", Toast.LENGTH_LONG).show();
+        return true;
+    }
+
 
     private class PhotoTapListener implements PhotoViewAttacher.OnPhotoTapListener {
 
@@ -116,9 +162,10 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
         }
     }
 
-    private class imageDownload extends AsyncTask<String, Void, Void> {
+    private Bitmap bmp;
+    private byte[] bmpBytes;
 
-        Bitmap bmp;
+    private class imageDownload extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... params) {
             try {
@@ -181,7 +228,7 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
         Response response = client.newCall(request).execute();
         if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-        byte[] bmpBytes = response.body().bytes();
+        bmpBytes = response.body().bytes();
         Bitmap bmp = BitmapFactory.decodeByteArray(bmpBytes, 0, bmpBytes.length);
         return bmp;
     }

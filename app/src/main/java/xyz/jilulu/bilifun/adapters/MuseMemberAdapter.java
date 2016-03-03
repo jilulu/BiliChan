@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import xyz.jilulu.bilifun.R;
-import xyz.jilulu.bilifun.activities.FullscreenActivity;
 import xyz.jilulu.bilifun.activities.GalleryActivity;
 import xyz.jilulu.bilifun.helpers.MuseMemberProfiles;
 
@@ -86,18 +85,6 @@ public class MuseMemberAdapter extends RecyclerView.Adapter<MuseMemberAdapter.Vi
             req = "http://android.jilulu.xyz/an_res/" + liveMuseMember.getRomaji().split(" ")[1].toLowerCase() + ".jpg";
             Picasso.with(context).load(req).into(profile);
         }
-
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String[] extras = {liveMuseMember.getJaName(), Integer.toString(liveMuseMember.getResID()), liveMuseMember.getRomaji()};
-                if (newRes) {
-                    extras[1] = "http://android.jilulu.xyz/an_res/" + liveMuseMember.getRomaji().split(" ")[1].toLowerCase() + ".jpg";
-                }
-                Intent fullScreenIntent=  new Intent(v.getContext(), FullscreenActivity.class).putExtra(Intent.EXTRA_TEXT, extras);
-                v.getContext().startActivity(fullScreenIntent);
-            }
-        });
 
         textViewGalleryEntrance.setOnClickListener(new View.OnClickListener() {
             @Override
