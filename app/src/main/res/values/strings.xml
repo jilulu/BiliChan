@@ -11,4 +11,19 @@
     <string name="title_activity_fullscreen">Preview</string>
     <string name="dummy_button">Download &#38; Save</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="freq_char_tags">http://konachan.net/tag.json?name=&amp;type=4&amp;order=count</string>
+    <string-array name="fragment_title_array">
+        <item>ラブライブ！ </item>
+        <item>KonaChan</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+
 </resources>

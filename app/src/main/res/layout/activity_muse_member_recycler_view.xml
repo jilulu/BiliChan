@@ -45,6 +45,7 @@
                     android:text="高坂 穂乃果"
                     android:textSize="33sp"
                     android:textColor="#233333"
+                    android:textStyle="bold"
                     />
 
                 <TextView

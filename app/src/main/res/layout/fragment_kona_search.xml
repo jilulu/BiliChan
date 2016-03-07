@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#222"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/searchTools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/searchBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="#FFFFCC"
+            android:hint="Search query here"
+            android:imeOptions="flagForceAscii|actionSearch"
+            android:inputType="textNoSuggestions"
+            android:maxLines="1"
+            android:padding="6dp"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/listViewDescriptor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tagListView"
+        android:layout_alignLeft="@+id/tagListView"
+        android:layout_alignStart="@+id/tagListView"
+        android:layout_marginBottom="-20dp"
+        android:text="Popular Posts"
+        android:textColor="#ee8887"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/searchTools"
+        android:src="@drawable/konachan_net_lg_std" />
+
+    <TextView
+        android:id="@+id/copyright_notice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:text="©Logo∈KonaChan"
+        android:textColor="#ee8887" />
+
+    <ListView xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/tagListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/copyright_notice"
+        android:layout_below="@+id/searchTools"
+        android:layout_margin="29dp"
+        android:visibility="invisible"
+        tools:listitem="@layout/fragment_kona_search_tag">
+    </ListView>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/kona_search_fragment_progress_bar"
+        android:layout_below="@id/listViewDescriptor"
+        android:layout_above="@id/copyright_notice"
+        android:layout_alignLeft="@id/tagListView"
+        android:layout_alignRight="@id/tagListView">
+        <ProgressBar
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
+
+</RelativeLayout>

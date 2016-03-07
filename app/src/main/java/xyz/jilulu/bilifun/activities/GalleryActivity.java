@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,18 +40,15 @@ public class GalleryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gallery);
 
         String[] origActivityInfo = getIntent().getStringArrayExtra(Intent.EXTRA_TEXT);
-        boolean startedFromMuseMemberActivity = (origActivityInfo != null);
 
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
         else {
             Toast.makeText(GalleryActivity.this, "Where's my ActionBar? ", Toast.LENGTH_SHORT).show();
         }
         //http://konachan.net/post?tags=kousaka_honoka%20order:fav%20rating:safe
-        String url = "http://konachan.net/post.json?tags="
-                + (startedFromMuseMemberActivity ? origActivityInfo[1] : "love_live!_school_idol_project")
-                + "%20order:score%20rating:safe";
+        String url = "http://konachan.net/post.json?tags=" + origActivityInfo[1] + "%20order:score%20rating:safe";
         Log.d("OKHTTP", url);
         parser mParser = new parser();
         mParser.execute(url);

@@ -48,7 +48,6 @@ import xyz.jilulu.bilifun.R;
 public class RevolutionaryPhotoView extends AppCompatActivity {
     static final String PHOTO_TAP_TOAST_STRING = "Photo Tap! X: %.2f %% Y:%.2f %% ID: %d";
 
-
     private TextView mCurrMatrixTv;
 
     private PhotoViewAttacher mAttacher;
@@ -133,6 +132,18 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (ActivityCompat.checkSelfPermission(RevolutionaryPhotoView.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            try {
+                saveToDisk();
+            } catch (IOException e) {
+                Log.e("OKIO", e.toString());
+            }
+        }
+        else
+            Toast.makeText(RevolutionaryPhotoView.this, "Permission denied. Unable to write to device storage. ", Toast.LENGTH_SHORT).show();
+    }
 
     private class PhotoTapListener implements PhotoViewAttacher.OnPhotoTapListener {
 
