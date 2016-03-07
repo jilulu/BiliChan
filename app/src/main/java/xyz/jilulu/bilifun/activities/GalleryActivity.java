@@ -84,8 +84,7 @@ public class GalleryActivity extends AppCompatActivity {
             }
         });
     }
-
-
+    
     class parser extends AsyncTask<String, Void, Void> {
         private OkHttpClient client = new OkHttpClient();
         private String json;
