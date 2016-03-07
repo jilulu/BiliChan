@@ -32,14 +32,17 @@ import xyz.jilulu.bilifun.helpers.KonaObject;
 public class GalleryActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
+    private int pageNumber = 1;
+
+    private ArrayList<KonaObject> konaObjectArrayList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
-        String[] origActivityInfo = getIntent().getStringArrayExtra(Intent.EXTRA_TEXT);
+        final String[] origActivityInfo = getIntent().getStringArrayExtra(Intent.EXTRA_TEXT);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
@@ -48,7 +51,8 @@ public class GalleryActivity extends AppCompatActivity {
             Toast.makeText(GalleryActivity.this, "Where's my ActionBar? ", Toast.LENGTH_SHORT).show();
         }
         //http://konachan.net/post?tags=kousaka_honoka%20order:fav%20rating:safe
-        String url = "http://konachan.net/post.json?tags=" + origActivityInfo[1] + "%20order:score%20rating:safe";
+        String url = "http://konachan.net/post.json?tags=" + origActivityInfo[1] +
+                "%20order:score%20rating:safe" + "&page=" + pageNumber;
         Log.d("OKHTTP", url);
         parser mParser = new parser();
         mParser.execute(url);
@@ -58,7 +62,29 @@ public class GalleryActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                final int NUM_ITEMS_BEFORE_REQUESTING = 2;
+
+                if (mLayoutManager.findLastCompletelyVisibleItemPosition() ==
+                        mLayoutManager.getItemCount() - NUM_ITEMS_BEFORE_REQUESTING
+                        && konaObjectArrayList.get(konaObjectArrayList.size()-1) != null) {
+                    konaObjectArrayList.add(null);
+                    mAdapter.notifyDataSetChanged();
+                    System.out.println(konaObjectArrayList.toString());
+                    pageNumber += 1;
+                    String url = "http://konachan.net/post.json?tags=" + origActivityInfo[1] +
+                            "%20order:score%20rating:safe" + "&page=" + pageNumber;
+                    Log.d("OKHTTP", url);
+                    parser mParser = new parser();
+                    mParser.execute(url);
+                }
+            }
+        });
     }
+
 
     class parser extends AsyncTask<String, Void, Void> {
         private OkHttpClient client = new OkHttpClient();
@@ -87,11 +113,19 @@ public class GalleryActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             JsonArray array = (JsonArray) parser.parse(json);
-            ArrayList<KonaObject> konaObjectArrayList = parseKonaObjects(array);
-            mAdapter = new KonaAdapter(konaObjectArrayList);
-            mRecyclerView.setAdapter(mAdapter);
-            findViewById(R.id.activity_gallery_progress_bar).setVisibility(View.GONE);
-            mRecyclerView.setVisibility(View.VISIBLE);
+
+            if (mAdapter == null) {
+                konaObjectArrayList = new ArrayList<>(parseKonaObjects(array));
+                mAdapter = new KonaAdapter(konaObjectArrayList);
+                mRecyclerView.setAdapter(mAdapter);
+                findViewById(R.id.activity_gallery_progress_bar).setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.VISIBLE);
+            } else {
+                konaObjectArrayList.remove(konaObjectArrayList.size() - 1);
+                konaObjectArrayList.addAll(parseKonaObjects(array));
+                mAdapter.notifyDataSetChanged();
+                System.out.println(konaObjectArrayList.toString());
+            }
         }
     }
 
