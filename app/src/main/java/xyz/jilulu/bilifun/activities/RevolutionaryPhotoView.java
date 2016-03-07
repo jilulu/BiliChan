@@ -57,6 +57,7 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
     private Matrix mCurrentDisplayMatrix = null;
 
     private String url;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,16 +116,16 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
         }
         if (ActivityCompat.checkSelfPermission(RevolutionaryPhotoView.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(RevolutionaryPhotoView.this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+            ActivityCompat.requestPermissions(RevolutionaryPhotoView.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
             return false;
         }
         // Permission granted.
         Calendar cal = Calendar.getInstance();
         File path = Environment.getExternalStorageDirectory();
         File file = new File(path, "Download/" + cal.get(Calendar.YEAR)
-                        + (cal.get(Calendar.MONTH) <= 9 ? "0"+cal.get(Calendar.MONTH) : "" + cal.get(Calendar.MONTH))
-                        + (cal.get(Calendar.DATE)  <= 9 ? "0"+cal.get(Calendar.DATE)  : "" + cal.get(Calendar.DATE))
-                        + "." + url.hashCode() + ".jpg");
+                + (cal.get(Calendar.MONTH) <= 9 ? "0" + cal.get(Calendar.MONTH) : "" + cal.get(Calendar.MONTH))
+                + (cal.get(Calendar.DATE) <= 9 ? "0" + cal.get(Calendar.DATE) : "" + cal.get(Calendar.DATE))
+                + "." + url.hashCode() + ".jpg");
         BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
         bufferedSink.write(bmpBytes);
         bufferedSink.close();
@@ -140,8 +141,7 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
             } catch (IOException e) {
                 Log.e("OKIO", e.toString());
             }
-        }
-        else
+        } else
             Toast.makeText(RevolutionaryPhotoView.this, "Permission denied. Unable to write to device storage. ", Toast.LENGTH_SHORT).show();
     }
 
@@ -208,7 +208,8 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
                 .build();
 
         final ProgressListener progressListener = new ProgressListener() {
-            @Override public void update(long bytesRead, long contentLength, boolean done) {
+            @Override
+            public void update(long bytesRead, long contentLength, boolean done) {
 //                System.out.println(bytesRead);
 //                System.out.println(contentLength);
 //                System.out.println(done);
@@ -255,15 +256,18 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
             this.progressListener = progressListener;
         }
 
-        @Override public MediaType contentType() {
+        @Override
+        public MediaType contentType() {
             return responseBody.contentType();
         }
 
-        @Override public long contentLength() {
+        @Override
+        public long contentLength() {
             return responseBody.contentLength();
         }
 
-        @Override public BufferedSource source() {
+        @Override
+        public BufferedSource source() {
             if (bufferedSource == null) {
                 bufferedSource = Okio.buffer(source(responseBody.source()));
             }
@@ -274,7 +278,8 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
             return new ForwardingSource(source) {
                 long totalBytesRead = 0L;
 
-                @Override public long read(Buffer sink, long byteCount) throws IOException {
+                @Override
+                public long read(Buffer sink, long byteCount) throws IOException {
                     long bytesRead = super.read(sink, byteCount);
                     // read() returns the number of bytes read, or -1 if this source is exhausted.
                     totalBytesRead += bytesRead != -1 ? bytesRead : 0;

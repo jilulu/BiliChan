@@ -17,7 +17,8 @@ import xyz.jilulu.bilifun.helpers.KonaTag;
  */
 public class KonaTagAdapter extends ArrayAdapter<KonaTag> {
     private int resourceID;
-    public KonaTagAdapter (Context context, int layoutResourceID, List<KonaTag> tags) {
+
+    public KonaTagAdapter(Context context, int layoutResourceID, List<KonaTag> tags) {
         super(context, layoutResourceID, tags);
         resourceID = layoutResourceID;
     }
@@ -30,8 +31,10 @@ public class KonaTagAdapter extends ArrayAdapter<KonaTag> {
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceID, null);
             viewHolder = new ViewHolder();
-            viewHolder.count = (TextView) view.findViewById(R.id.post_count);;
-            viewHolder.tag = (TextView) view.findViewById(R.id.post_tag);;
+            viewHolder.count = (TextView) view.findViewById(R.id.post_count);
+            ;
+            viewHolder.tag = (TextView) view.findViewById(R.id.post_tag);
+            ;
             view.setTag(viewHolder);
         } else {
             view = convertView;

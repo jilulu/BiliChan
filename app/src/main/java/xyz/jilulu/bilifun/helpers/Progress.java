@@ -18,6 +18,7 @@ package xyz.jilulu.bilifun.helpers;
 
 
 import java.io.IOException;
+
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -38,7 +39,8 @@ public final class Progress {
                 .build();
 
         final ProgressListener progressListener = new ProgressListener() {
-            @Override public void update(long bytesRead, long contentLength, boolean done) {
+            @Override
+            public void update(long bytesRead, long contentLength, boolean done) {
                 System.out.println(bytesRead);
                 System.out.println(contentLength);
                 System.out.println(done);
@@ -48,7 +50,8 @@ public final class Progress {
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addNetworkInterceptor(new Interceptor() {
-                    @Override public Response intercept(Chain chain) throws IOException {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
                         Response originalResponse = chain.proceed(chain.request());
                         return originalResponse.newBuilder()
                                 .body(new ProgressResponseBody(originalResponse.body(), progressListener))
@@ -78,15 +81,18 @@ public final class Progress {
             this.progressListener = progressListener;
         }
 
-        @Override public MediaType contentType() {
+        @Override
+        public MediaType contentType() {
             return responseBody.contentType();
         }
 
-        @Override public long contentLength() {
+        @Override
+        public long contentLength() {
             return responseBody.contentLength();
         }
 
-        @Override public BufferedSource source() {
+        @Override
+        public BufferedSource source() {
             if (bufferedSource == null) {
                 bufferedSource = Okio.buffer(source(responseBody.source()));
             }
@@ -97,7 +103,8 @@ public final class Progress {
             return new ForwardingSource(source) {
                 long totalBytesRead = 0L;
 
-                @Override public long read(Buffer sink, long byteCount) throws IOException {
+                @Override
+                public long read(Buffer sink, long byteCount) throws IOException {
                     long bytesRead = super.read(sink, byteCount);
                     // read() returns the number of bytes read, or -1 if this source is exhausted.
                     totalBytesRead += bytesRead != -1 ? bytesRead : 0;

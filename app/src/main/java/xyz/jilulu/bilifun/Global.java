@@ -13,7 +13,7 @@ public class Global extends Application {
     public void onCreate() {
         super.onCreate();
         Picasso.Builder builder = new Picasso.Builder(this);
-        builder.downloader(new OkHttpDownloader(this,Integer.MAX_VALUE));
+        builder.downloader(new OkHttpDownloader(this, Integer.MAX_VALUE));
         Picasso built = builder.build();
         // built.setIndicatorsEnabled(true); // Uncomment this to enable image-corner squares
         // built.setLoggingEnabled(true);    // Uncomment this to enable debug logs

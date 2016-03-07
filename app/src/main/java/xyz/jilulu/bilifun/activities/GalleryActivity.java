@@ -70,7 +70,7 @@ public class GalleryActivity extends AppCompatActivity {
 
                 if (mLayoutManager.findLastCompletelyVisibleItemPosition() ==
                         mLayoutManager.getItemCount() - NUM_ITEMS_BEFORE_REQUESTING
-                        && konaObjectArrayList.get(konaObjectArrayList.size()-1) != null) {
+                        && konaObjectArrayList.get(konaObjectArrayList.size() - 1) != null) {
                     konaObjectArrayList.add(null);
                     mAdapter.notifyDataSetChanged();
                     System.out.println(konaObjectArrayList.toString());
@@ -128,7 +128,7 @@ public class GalleryActivity extends AppCompatActivity {
         }
     }
 
-    private ArrayList<KonaObject> parseKonaObjects (JsonArray ja) {
+    private ArrayList<KonaObject> parseKonaObjects(JsonArray ja) {
         ArrayList<KonaObject> konaObjects = new ArrayList<KonaObject>();
         for (int i = 0; i < ja.size(); i++) {
             konaObjects.add(new KonaObject(ja.get(i).getAsJsonObject()));

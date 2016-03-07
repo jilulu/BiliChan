@@ -9,6 +9,7 @@ public class KonaObject {
     private JsonObject konaJsonEntry;
     private String tags, author, fullSizeURL, previewURL, largeSizeURL;
     private int fileSize, id;
+
     public KonaObject(JsonObject jo) {
         konaJsonEntry = jo;
         tags = konaJsonEntry.get("tags").getAsString();

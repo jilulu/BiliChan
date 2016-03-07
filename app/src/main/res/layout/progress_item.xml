@@ -9,5 +9,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
         android:indeterminate="true"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

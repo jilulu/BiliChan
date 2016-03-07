@@ -70,8 +70,7 @@
         android:layout_below="@+id/searchTools"
         android:layout_margin="29dp"
         android:visibility="invisible"
-        tools:listitem="@layout/fragment_kona_search_tag">
-    </ListView>
+        tools:listitem="@layout/fragment_kona_search_tag"></ListView>
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -81,10 +80,11 @@
         android:layout_above="@id/copyright_notice"
         android:layout_alignLeft="@id/tagListView"
         android:layout_alignRight="@id/tagListView">
+
         <ProgressBar
             android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </FrameLayout>
 
 </RelativeLayout>

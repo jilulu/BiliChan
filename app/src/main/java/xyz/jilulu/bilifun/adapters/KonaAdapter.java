@@ -45,7 +45,7 @@ public class KonaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public ProgressHolder(View v) {
             super(v);
-            this.mProgressBar = (ProgressBar)v.findViewById(R.id.progressBar);
+            this.mProgressBar = (ProgressBar) v.findViewById(R.id.progressBar);
         }
     }
 
@@ -70,7 +70,7 @@ public class KonaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        return mDataset.get(position)!=null? 0: 1;
+        return mDataset.get(position) != null ? 0 : 1;
     }
 
     @Override

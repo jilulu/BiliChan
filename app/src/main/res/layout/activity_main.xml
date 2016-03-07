@@ -10,8 +10,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/content_frame">
-    </FrameLayout>
+        android:id="@+id/content_frame"></FrameLayout>
 
 
     <LinearLayout
@@ -26,14 +25,16 @@
             android:layout_height="wrap_content"
             android:src="@drawable/konachan_net_lg_std"
             android:background="#222"
-            android:adjustViewBounds="true"/>
-        <ListView android:id="@+id/drawer_list_view"
+            android:adjustViewBounds="true" />
+
+        <ListView
+            android:id="@+id/drawer_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:choiceMode="singleChoice"
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp"
-            android:background="#FFF"/>
+            android:background="#FFF" />
     </LinearLayout>
 
 

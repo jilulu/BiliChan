@@ -41,11 +41,16 @@ import xyz.jilulu.bilifun.helpers.KonaTag;
 public class KonaFragment extends Fragment {
     KonaTagAdapter adapter;
 
-    @Bind(R.id.tagListView) ListView listView;
-    @Bind(R.id.search_button) Button searchButton;
-    @Bind(R.id.searchBar) EditText mySearchBox;
-    @Bind(R.id.listViewDescriptor) TextView hintText;
-    @Bind(R.id.kona_search_fragment_progress_bar) FrameLayout loadingIndicatorProgressBar;
+    @Bind(R.id.tagListView)
+    ListView listView;
+    @Bind(R.id.search_button)
+    Button searchButton;
+    @Bind(R.id.searchBar)
+    EditText mySearchBox;
+    @Bind(R.id.listViewDescriptor)
+    TextView hintText;
+    @Bind(R.id.kona_search_fragment_progress_bar)
+    FrameLayout loadingIndicatorProgressBar;
 
     public KonaFragment() {
 
