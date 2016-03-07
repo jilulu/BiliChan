@@ -84,7 +84,7 @@ public class GalleryActivity extends AppCompatActivity {
             }
         });
     }
-    
+
     class parser extends AsyncTask<String, Void, Void> {
         private OkHttpClient client = new OkHttpClient();
         private String json;
@@ -127,8 +127,6 @@ public class GalleryActivity extends AppCompatActivity {
             }
         }
     }
-
-
 
     private ArrayList<KonaObject> parseKonaObjects (JsonArray ja) {
         ArrayList<KonaObject> konaObjects = new ArrayList<KonaObject>();
