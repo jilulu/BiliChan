@@ -1,4 +1,4 @@
-package xyz.jilulu.bilifun;
+package xyz.jilulu.bilichan;
 
 import org.junit.Test;
 

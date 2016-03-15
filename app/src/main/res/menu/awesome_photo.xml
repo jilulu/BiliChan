@@ -6,5 +6,8 @@
         android:title="Save"
         xyz.jilulu.bilifun:showAsAction="always"
         android:icon="@drawable/icon_download" />
-
+    <item android:id="@+id/favorite"
+        android:title="Favorite"
+        xyz.jilulu.bilifun:showAsAction = "always"
+        android:icon="@drawable/icon_favd"/>
 </menu>
