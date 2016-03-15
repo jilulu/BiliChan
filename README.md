@@ -1,6 +1,6 @@
-# BiliFun
+# BiliChan
 
-Android app introducing the Japanese Anime [LoveLive!](https://en.wikipedia.org/wiki/Love_Live!). 
+An official konachan.com browser. APK package available at https://play.google.com/store/apps/details?id=xyz.jilulu.bilichan. 
 
 ## Build
 ```bash
