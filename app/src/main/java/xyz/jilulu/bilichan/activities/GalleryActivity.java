@@ -34,6 +34,7 @@ public class GalleryActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private int pageNumber = 1;
+    private String title;
 
     private ArrayList<KonaObject> konaObjectArrayList;
 
@@ -43,10 +44,13 @@ public class GalleryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gallery);
 
         final String[] origActivityInfo = getIntent().getStringArrayExtra(Intent.EXTRA_TEXT);
+        title = origActivityInfo[1];
 
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(title);
+        }
         else {
             Toast.makeText(GalleryActivity.this, "Where's my ActionBar? ", Toast.LENGTH_SHORT).show();
         }
@@ -68,19 +72,19 @@ public class GalleryActivity extends AppCompatActivity {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 final int NUM_ITEMS_BEFORE_REQUESTING = 2;
 
-                if (mLayoutManager.findLastCompletelyVisibleItemPosition() ==
-                        mLayoutManager.getItemCount() - NUM_ITEMS_BEFORE_REQUESTING
-                        && konaObjectArrayList.get(konaObjectArrayList.size() - 1) != null) {
-                    konaObjectArrayList.add(null);
-                    mAdapter.notifyDataSetChanged();
-                    System.out.println(konaObjectArrayList.toString());
-                    pageNumber += 1;
-                    String url = "http://konachan.net/post.json?tags=" + origActivityInfo[1] +
-                            "%20order:score%20rating:safe" + "&page=" + pageNumber;
-                    Log.d("OKHTTP", url);
-                    parser mParser = new parser();
-                    mParser.execute(url);
-                }
+            if (mLayoutManager.findLastCompletelyVisibleItemPosition() ==
+                    mLayoutManager.getItemCount() - NUM_ITEMS_BEFORE_REQUESTING
+                    && konaObjectArrayList.get(konaObjectArrayList.size() - 1) != null) {
+                konaObjectArrayList.add(null);
+                mAdapter.notifyDataSetChanged();
+                System.out.println(konaObjectArrayList.toString());
+                pageNumber += 1;
+                String url = "http://konachan.net/post.json?tags=" + origActivityInfo[1] +
+                        "%20order:score%20rating:safe" + "&page=" + pageNumber;
+                Log.d("OKHTTP", url);
+                parser mParser = new parser();
+                mParser.execute(url);
+            }
             }
         });
     }
@@ -115,7 +119,7 @@ public class GalleryActivity extends AppCompatActivity {
 
             if (mAdapter == null) {
                 konaObjectArrayList = new ArrayList<>(parseKonaObjects(array));
-                mAdapter = new KonaAdapter(konaObjectArrayList);
+                mAdapter = new KonaAdapter(konaObjectArrayList, title);
                 mRecyclerView.setAdapter(mAdapter);
                 findViewById(R.id.activity_gallery_progress_bar).setVisibility(View.GONE);
                 mRecyclerView.setVisibility(View.VISIBLE);

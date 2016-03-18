@@ -154,9 +154,9 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
     }
 
     private void favorite() {
-        UserfavObject obj = new UserfavObject(Integer.parseInt(extras[0]), extras[1], extras[2], extras[3]);
+        UserfavObject obj = new UserfavObject(Integer.parseInt(extras[0]), extras[1], extras[2], extras[3], extras[4]);
         DBOperator dbOp = new DBOperator(context);
-        dbOp.insertEntry(obj.getPostID(), obj.getTitle(), obj.getPrevURL(), obj.getFullURL());
+        dbOp.insertEntry(obj.getPostID(), obj.getTag(), obj.getPrevURL(), obj.getFullURL(), obj.getTitle());
         dbOp.closeDB();
         Toast.makeText(RevolutionaryPhotoView.this, "Added to favorite", Toast.LENGTH_SHORT).show();
     }

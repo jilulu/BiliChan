@@ -5,21 +5,22 @@ package xyz.jilulu.bilichan.helpers;
  */
 public class UserfavObject {
     private int postID;
-    private String title, prevURL, fullURL;
+    private String tag, prevURL, fullURL, title;
 
-    public UserfavObject(int postID, String title, String prevURL, String fullURL) {
+    public UserfavObject(int postID, String tag, String prevURL, String fullURL, String title) {
         this.postID = postID;
-        this.title = title;
+        this.tag = tag;
         this.prevURL = prevURL;
         this.fullURL = fullURL;
+        this.title = title;
     }
 
     public int getPostID() {
         return postID;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTag() {
+        return tag;
     }
 
     public String getPrevURL() {
@@ -28,5 +29,9 @@ public class UserfavObject {
 
     public String getFullURL() {
         return fullURL;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

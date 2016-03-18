@@ -54,9 +54,9 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
     public void onBindViewHolder(FavAdapter.ViewHolder holder, int position) {
         Context commonContext = holder.cv.getContext();
         UserfavObject currentFav = userfavObjectArrayList.get(position);
-        holder.misakaText.setText(currentFav.getTitle().split(" ")[0]);
+        holder.misakaText.setText(currentFav.getTitle());
         Picasso.with(commonContext).load(currentFav.getPrevURL()).into(holder.misakaImage);
-        String[] tags = currentFav.getTitle().split(" ");
+        String[] tags = currentFav.getTag().split(" ");
         for (int i = 0; i < tags.length; i++) {
             TextView tv = (TextView) LayoutInflater.from(commonContext).inflate(R.layout.tv_rounded_otg, holder.tagContainer, false);
             tv.setText(tags[i]);

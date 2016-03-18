@@ -23,6 +23,7 @@ import xyz.jilulu.bilichan.helpers.KonaObject;
  * Created by jamesji on 29/2/2016.
  */
 public class KonaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private String tag;
     private ArrayList<KonaObject> mDataset;
 
     public static class CardHolder extends RecyclerView.ViewHolder {
@@ -49,8 +50,9 @@ public class KonaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    public KonaAdapter(ArrayList<KonaObject> dataset) {
+    public KonaAdapter(ArrayList<KonaObject> dataset, String tag) {
         mDataset = dataset;
+        this.tag = tag;
     }
 
     @Override
@@ -103,7 +105,7 @@ public class KonaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Intent revolutionaryIntent = new Intent(v.getContext(), RevolutionaryPhotoView.class);
-                    revolutionaryIntent.putExtra(Intent.EXTRA_TEXT, new String[] {"" + obj.getId(), obj.getTags(), obj.getPreviewURL(), obj.getFullSizeURL()});
+                    revolutionaryIntent.putExtra(Intent.EXTRA_TEXT, new String[] {"" + obj.getId(), obj.getTags(), obj.getPreviewURL(), obj.getFullSizeURL(), tag});
                     v.getContext().startActivity(revolutionaryIntent);
                 }
             });

@@ -32,9 +32,7 @@ public class KonaTagAdapter extends ArrayAdapter<KonaTag> {
             view = LayoutInflater.from(getContext()).inflate(resourceID, null);
             viewHolder = new ViewHolder();
             viewHolder.count = (TextView) view.findViewById(R.id.post_count);
-            ;
             viewHolder.tag = (TextView) view.findViewById(R.id.post_tag);
-            ;
             view.setTag(viewHolder);
         } else {
             view = convertView;
