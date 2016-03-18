@@ -1,8 +1,11 @@
 package xyz.jilulu.bilichan.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -41,6 +44,10 @@ import okio.Okio;
 import okio.Source;
 import uk.co.senab.photoview.PhotoViewAttacher;
 import xyz.jilulu.bilichan.R;
+import xyz.jilulu.bilichan.helpers.DBOperator;
+import xyz.jilulu.bilichan.helpers.FavoriteDBHelper;
+import xyz.jilulu.bilichan.helpers.FavoritePostContract;
+import xyz.jilulu.bilichan.helpers.UserfavObject;
 
 /**
  * Created by jamesji on 3/3/2016.
@@ -57,6 +64,10 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
     private Matrix mCurrentDisplayMatrix = null;
 
     private String url;
+    private String[] extras;
+    private int currentID;
+
+    private Context context;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +80,9 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
 
         final ImageView mImageView = (ImageView) findViewById(R.id.iv_photo);
         mCurrMatrixTv = (TextView) findViewById(R.id.tv_current_matrix);
-        url = getIntent().getStringExtra(Intent.EXTRA_TEXT);
+        extras = getIntent().getStringArrayExtra(Intent.EXTRA_TEXT);
+        url = extras[3];
+        currentID = Integer.parseInt(extras[0]);
 
         imageDownload dl = new imageDownload();
 
@@ -82,12 +95,35 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
         mAttacher.setOnMatrixChangeListener(new MatrixChangeListener());
         mAttacher.setOnPhotoTapListener(new PhotoTapListener());
         Toast.makeText(RevolutionaryPhotoView.this, "Beginning download. ", Toast.LENGTH_SHORT).show();
+        context = this;
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.awesome_photo, menu);
+        if (queryForCurrentEntry()) {
+            menu.findItem(R.id.favorite).setIcon(R.drawable.icon_favd);
+        }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private boolean queryForCurrentEntry() {
+        FavoriteDBHelper dbHelper = new FavoriteDBHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query(FavoritePostContract.FavoritePost.TABLE_NAME, null, FavoritePostContract.FavoritePost._ID + " = " + currentID, null, null, null, null);
+        boolean favd =  cursor.moveToFirst() && cursor.getCount() != 0;
+        cursor.close();
+        db.close();
+        return (favd);
+    }
+
+    private void removeCurrentEntry(MenuItem item) {
+        FavoriteDBHelper dbHelper = new FavoriteDBHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(FavoritePostContract.FavoritePost.TABLE_NAME, FavoritePostContract.FavoritePost._ID + " = " + currentID, null);
+        db.close();
+        item.setIcon(R.drawable.icon_fav);
     }
 
     @Override
@@ -103,10 +139,26 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
                     Log.e("OKIO", e.toString());
                 }
                 break;
+            case R.id.favorite:
+                if (!queryForCurrentEntry()) {
+                    favorite();
+                    item.setIcon(R.drawable.icon_favd);
+                } else {
+                    removeCurrentEntry(item);
+                }
+                break;
             default:
                 break;
         }
         return true;
+    }
+
+    private void favorite() {
+        UserfavObject obj = new UserfavObject(Integer.parseInt(extras[0]), extras[1], extras[2], extras[3]);
+        DBOperator dbOp = new DBOperator(context);
+        dbOp.insertEntry(obj.getPostID(), obj.getTitle(), obj.getPrevURL(), obj.getFullURL());
+        dbOp.closeDB();
+        Toast.makeText(RevolutionaryPhotoView.this, "Added to favorite", Toast.LENGTH_SHORT).show();
     }
 
     private boolean saveToDisk() throws IOException {

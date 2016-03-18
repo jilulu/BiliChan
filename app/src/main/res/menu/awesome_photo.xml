@@ -9,5 +9,5 @@
     <item android:id="@+id/favorite"
         android:title="Favorite"
         xyz.jilulu.bilifun:showAsAction = "always"
-        android:icon="@drawable/icon_favd"/>
+        android:icon="@drawable/icon_fav"/>
 </menu>

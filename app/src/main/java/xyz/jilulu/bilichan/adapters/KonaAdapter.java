@@ -103,7 +103,7 @@ public class KonaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Intent revolutionaryIntent = new Intent(v.getContext(), RevolutionaryPhotoView.class);
-                    revolutionaryIntent.putExtra(Intent.EXTRA_TEXT, obj.getLargeSizeURL());
+                    revolutionaryIntent.putExtra(Intent.EXTRA_TEXT, new String[] {"" + obj.getId(), obj.getTags(), obj.getPreviewURL(), obj.getFullSizeURL()});
                     v.getContext().startActivity(revolutionaryIntent);
                 }
             });

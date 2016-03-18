@@ -18,7 +18,7 @@
     <string-array name="fragment_title_array">
         <item>BiliChan</item>
         <item>ラブライブ！ </item>
-        <!--<item>Favorites</item>-->
+        <item>Favorites</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->

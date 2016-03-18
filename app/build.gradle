@@ -35,4 +35,6 @@ dependencies {
     compile 'com.commit451:PhotoView:1.2.4'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.android.support:support-v4:23.2.0'
+    compile 'org.apmem.tools:layouts:1.10@aar'
+
 }
