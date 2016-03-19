@@ -1,6 +1,7 @@
 package xyz.jilulu.bilichan.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import org.apmem.tools.layouts.FlowLayout;
 import java.util.ArrayList;
 
 import xyz.jilulu.bilichan.R;
+import xyz.jilulu.bilichan.activities.RevolutionaryPhotoView;
 import xyz.jilulu.bilichan.helpers.UserfavObject;
 
 /**
@@ -53,7 +55,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(FavAdapter.ViewHolder holder, int position) {
         Context commonContext = holder.cv.getContext();
-        UserfavObject currentFav = userfavObjectArrayList.get(position);
+        final UserfavObject currentFav = userfavObjectArrayList.get(position);
         holder.misakaText.setText(currentFav.getTitle());
         Picasso.with(commonContext).load(currentFav.getPrevURL()).into(holder.misakaImage);
         String[] tags = currentFav.getTag().split(" ");
@@ -62,7 +64,15 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
             tv.setText(tags[i]);
             holder.tagContainer.addView(tv);
         }
-
+        holder.cv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), RevolutionaryPhotoView.class);
+                intent.putExtra(Intent.EXTRA_TEXT,
+                        new String[]{"" + currentFav.getPostID(), currentFav.getTag(), currentFav.getPrevURL(), currentFav.getFullURL(), currentFav.getTitle()});
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

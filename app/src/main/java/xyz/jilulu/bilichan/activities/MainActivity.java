@@ -178,4 +178,12 @@ public class MainActivity extends AppCompatActivity {
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Toast.makeText(MainActivity.this, "onRestart()", Toast.LENGTH_SHORT).show();
+        FavFragment fav = (FavFragment) getFragmentManager().findFragmentById(R.id.content_frame);
+        fav.notifyAdapterDataChanged();
+    }
 }

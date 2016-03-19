@@ -28,6 +28,7 @@ public class FavFragment extends Fragment {
     RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    ArrayList<UserfavObject> fav;
 
     public FavFragment() {
     }
@@ -42,7 +43,7 @@ public class FavFragment extends Fragment {
         getActivity().setTitle(fragmentTitle);
 
         DBOperator dbOp = new DBOperator(getActivity());
-        ArrayList<UserfavObject> fav = dbOp.queryDB();
+        fav = dbOp.queryDB();
         dbOp.closeDB();
 
         recyclerView.setHasFixedSize(true);
@@ -54,4 +55,38 @@ public class FavFragment extends Fragment {
         return rootView;
     }
 
+    public void notifyAdapterDataChanged() {
+        DBOperator dbOp = new DBOperator(getActivity());
+        fav.clear();
+        fav.addAll(dbOp.queryDB());
+        adapter.notifyDataSetChanged();
+    }
+
+//    // Exploring fragment lifecycle
+//
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        Toast.makeText(context, "onAttach()", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @Override
+//    public void onActivityCreated(Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//        Toast.makeText(getActivity(), "onActivityCreated()", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        Toast.makeText(getActivity(), "onDestroyView()", Toast.LENGTH_SHORT).show();
+//
+//    }
+//
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        Toast.makeText(getActivity(), "onDetach()", Toast.LENGTH_SHORT).show();
+//
+//    }
 }
