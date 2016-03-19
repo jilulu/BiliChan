@@ -1,5 +1,6 @@
 package xyz.jilulu.bilichan.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,9 +16,11 @@ import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -35,6 +38,7 @@ public class GalleryActivity extends AppCompatActivity {
     private LinearLayoutManager mLayoutManager;
     private int pageNumber = 1;
     private String title;
+    private Context context;
 
     private ArrayList<KonaObject> konaObjectArrayList;
 
@@ -42,6 +46,8 @@ public class GalleryActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
+
+        context = this;
 
         final String[] origActivityInfo = getIntent().getStringArrayExtra(Intent.EXTRA_TEXT);
         title = origActivityInfo[1];
@@ -66,7 +72,6 @@ public class GalleryActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -77,7 +82,7 @@ public class GalleryActivity extends AppCompatActivity {
                     && konaObjectArrayList.get(konaObjectArrayList.size() - 1) != null) {
                 konaObjectArrayList.add(null);
                 mAdapter.notifyDataSetChanged();
-                System.out.println(konaObjectArrayList.toString());
+//                System.out.println(konaObjectArrayList.toString());
                 pageNumber += 1;
                 String url = "http://konachan.net/post.json?tags=" + origActivityInfo[1] +
                         "%20order:score%20rating:safe" + "&page=" + pageNumber;
@@ -127,7 +132,12 @@ public class GalleryActivity extends AppCompatActivity {
                 konaObjectArrayList.remove(konaObjectArrayList.size() - 1);
                 konaObjectArrayList.addAll(parseKonaObjects(array));
                 mAdapter.notifyDataSetChanged();
-                System.out.println(konaObjectArrayList.toString());
+//                System.out.println(konaObjectArrayList.toString());
+            }
+            Iterator<KonaObject> iterator = konaObjectArrayList.iterator();
+
+            while (iterator.hasNext()) {
+                Picasso.with(context).load(iterator.next().getPreviewURL()).fetch();
             }
         }
     }

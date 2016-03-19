@@ -153,6 +153,14 @@ public class KonaFragment extends Fragment {
                 return;
             }
 
+            // This is an Async task, which means user might have switched to another task as task finishes
+            try {
+                boolean userDidntMoveAway = getActivity().getFragmentManager().findFragmentById(R.id.content_frame) instanceof KonaFragment;
+                if (!userDidntMoveAway) return;
+            } catch (NullPointerException e) {
+                return;
+            }
+
             JsonParser parser = new JsonParser();
             final JsonArray tagArray = parser.parse(json_String).getAsJsonArray();
             for (int i = 0; i < tagArray.size(); i++) {

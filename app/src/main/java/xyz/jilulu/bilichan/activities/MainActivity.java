@@ -182,8 +182,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Toast.makeText(MainActivity.this, "onRestart()", Toast.LENGTH_SHORT).show();
-        FavFragment fav = (FavFragment) getFragmentManager().findFragmentById(R.id.content_frame);
-        fav.notifyAdapterDataChanged();
+        if (getFragmentManager().findFragmentById(R.id.content_frame) instanceof FavFragment) {
+            FavFragment fav = (FavFragment) getFragmentManager().findFragmentById(R.id.content_frame);
+            fav.notifyAdapterDataChanged();
+        }
     }
 }

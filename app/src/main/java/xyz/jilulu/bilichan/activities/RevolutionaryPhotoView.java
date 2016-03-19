@@ -124,6 +124,7 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
         db.delete(FavoritePostContract.FavoritePost.TABLE_NAME, FavoritePostContract.FavoritePost._ID + " = " + currentID, null);
         db.close();
         item.setIcon(R.drawable.icon_fav);
+        Toast.makeText(RevolutionaryPhotoView.this, "Removed from favorites", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -158,7 +159,7 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
         DBOperator dbOp = new DBOperator(context);
         dbOp.insertEntry(obj.getPostID(), obj.getTag(), obj.getPrevURL(), obj.getFullURL(), obj.getTitle());
         dbOp.closeDB();
-        Toast.makeText(RevolutionaryPhotoView.this, "Added to favorite", Toast.LENGTH_SHORT).show();
+        Toast.makeText(RevolutionaryPhotoView.this, "Added to favorites", Toast.LENGTH_SHORT).show();
     }
 
     private boolean saveToDisk() throws IOException {
