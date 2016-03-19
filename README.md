@@ -5,14 +5,14 @@ An official konachan.com browser. APK package available at https://play.google.c
 ## Build
 ```bash
 cd ~/Desktop/
-git clone https://github.com/jilulu/BiliFun.git
+git clone https://github.com/jilulu/BiliChan.git
 cd BiliFun
 ./gradlew
 ```
 This should download all missing dependencies if you're on an active internet connection. 
 
 ## License
-[GNU GPL v3.0](https://raw.githubusercontent.com/jilulu/BiliFun/master/LICENSE.md). 
+[GNU GPL v3.0](https://raw.githubusercontent.com/jilulu/BiliChan/master/LICENSE.md). 
 
 In plain English, the following are required
 
