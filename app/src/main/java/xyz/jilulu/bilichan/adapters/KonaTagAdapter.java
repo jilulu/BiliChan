@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -30,6 +31,9 @@ import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okio.BufferedSink;
+import okio.BufferedSource;
+import okio.Okio;
 import xyz.jilulu.bilichan.R;
 import xyz.jilulu.bilichan.activities.GalleryActivity;
 import xyz.jilulu.bilichan.helpers.KonaTag;
@@ -38,15 +42,16 @@ import xyz.jilulu.bilichan.helpers.KonaTag;
  * Created by jamesji on 4/3/2016.
  */
 public class KonaTagAdapter extends RecyclerView.Adapter<KonaTagAdapter.ViewHolder> {
-
     private ArrayList<KonaTag> dataSet;
     private RecyclerView parent;
     private LruCache<String, BitmapDrawable> mMemoryCache;
+    private File cacheDir;
 
     public KonaTagAdapter(ArrayList<KonaTag> dataSet) {
         this.dataSet = dataSet;
         int maxMemory = (int) Runtime.getRuntime().maxMemory();
-        int cacheSize = maxMemory / 8;
+        int cacheSize = maxMemory / 2;
+        System.out.println(cacheSize);
         mMemoryCache = new LruCache<String, BitmapDrawable>(cacheSize) {
             @Override
             protected int sizeOf(String key, BitmapDrawable drawable) {
@@ -69,6 +74,9 @@ public class KonaTagAdapter extends RecyclerView.Adapter<KonaTagAdapter.ViewHold
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_tag, parent, false);
         this.parent = (RecyclerView) parent;
         ViewHolder vh = new ViewHolder(v);
+        if (cacheDir == null) {
+            cacheDir = parent.getContext().getCacheDir();
+        }
         return vh;
     }
 
@@ -109,12 +117,23 @@ public class KonaTagAdapter extends RecyclerView.Adapter<KonaTagAdapter.ViewHold
             holder.imageViews[i].setImageResource(R.drawable.fav_holder);
             holder.imageViews[i].setTag(_tagName + i);
             bmpDrawable[i] = getBitmapFromMemoryCache(_tagName + i);
+            File tempFile = new File(cacheDir, _tagName + i);
+            if (bmpDrawable[i] == null && tempFile.exists()) {
+                try {
+                    BufferedSource source = Okio.buffer(Okio.source(tempFile));
+                    byte[] bmpBytes = source.readByteArray();
+                    addBitmapToMemoryCache(_tagName + i, new BitmapDrawable(BitmapFactory.decodeByteArray(bmpBytes, 0, bmpBytes.length)));
+                    bmpDrawable[i] = getBitmapFromMemoryCache(_tagName + i);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         if (bmpDrawable[0] != null && bmpDrawable[1] != null && bmpDrawable[2] != null && bmpDrawable[3] != null) {
             for (int i = 0; i < bmpDrawable.length; i++)
                 holder.imageViews[i].setImageDrawable(bmpDrawable[i]);
-        } else {
+        } else{
             (new FetchThumbnailTask()).execute(_tagName);
             Log.d("BindViewHolder", position + ": ViewHolder Binded");
         }
@@ -152,7 +171,11 @@ public class KonaTagAdapter extends RecyclerView.Adapter<KonaTagAdapter.ViewHold
         private final String[] url_json = {"http://konachan.net/post.json?tags=", "%20order:score%20rating:safe"};
         private String tag;
         private ConnectionPool pool = new ConnectionPool(1, 5, TimeUnit.MINUTES);
-        private final OkHttpClient client = new OkHttpClient.Builder().connectionPool(pool).build();
+
+        private final OkHttpClient client = new OkHttpClient.Builder()
+                .connectionPool(pool)
+                .build();
+
         @Override
         protected Void doInBackground(final String... params) {
             tag = params[0];
@@ -168,7 +191,7 @@ public class KonaTagAdapter extends RecyclerView.Adapter<KonaTagAdapter.ViewHold
                 }
 
                 @Override
-                public void onResponse(Call call, Response res) throws IOException {
+                public void onResponse(Call call, final Response res) throws IOException {
                     String json_response = res.body().string();
                     JsonParser parser = new JsonParser();
                     JsonArray arr = parser.parse(json_response).getAsJsonArray();
@@ -176,6 +199,8 @@ public class KonaTagAdapter extends RecyclerView.Adapter<KonaTagAdapter.ViewHold
                     for (int i = 0; i < imagePreviewLinks.length; i++) {
                         final int currentDownloadNum = i;
                         imagePreviewLinks[i] = arr.get(i).getAsJsonObject().get("preview_url").getAsString();
+
+                        final File tempFile = new File(cacheDir, tag + currentDownloadNum);
 
                         client.newCall(new Request.Builder().url(imagePreviewLinks[i]).build()).enqueue(new Callback() {
                             @Override
@@ -185,8 +210,14 @@ public class KonaTagAdapter extends RecyclerView.Adapter<KonaTagAdapter.ViewHold
 
                             @Override
                             public void onResponse(Call call, Response response) throws IOException {
-                                Bitmap bmp = BitmapFactory.decodeStream(response.body().byteStream());
+                                byte[] responseBytes = response.body().bytes();
+                                Bitmap bmp = BitmapFactory.decodeByteArray(responseBytes, 0, responseBytes.length);
                                 BitmapDrawable drawable = new BitmapDrawable(bmp);
+
+                                BufferedSink sink = Okio.buffer(Okio.sink(tempFile));
+                                sink.write(responseBytes);
+                                sink.close();
+
                                 addBitmapToMemoryCache(tag + currentDownloadNum, drawable);
                                 publishProgress(currentDownloadNum);
                                 Log.d("OKHTTP", "Image No." + (currentDownloadNum + 1) + " downloaded. Added to Cache. ");
@@ -200,23 +231,6 @@ public class KonaTagAdapter extends RecyclerView.Adapter<KonaTagAdapter.ViewHold
             });
 
             return null;
-//            try {
-//                Response res = client.newCall(req).execute();
-//                String json_response = res.body().string();
-//                JsonParser parser = new JsonParser();
-//                JsonArray arr = parser.parse(json_response).getAsJsonArray();
-//                String[] imagePreviewLinks = new String[4];
-//                for (int i = 0; i < imagePreviewLinks.length; i++) {
-//                    imagePreviewLinks[i] = arr.get(i).getAsJsonObject().get("preview_url").getAsString();
-//                    BitmapDrawable bitmapDrawable = new BitmapDrawable(downloadBitmap(imagePreviewLinks[i]));
-//                    addBitmapToMemoryCache(params[0] + i, bitmapDrawable);
-//                    drawables[i] = bitmapDrawable;
-//                    Log.d("OKHTTP", "Image No." + (i + 1) + " downloaded. ");
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            return drawables;
         }
 
         @Override
@@ -238,26 +252,5 @@ public class KonaTagAdapter extends RecyclerView.Adapter<KonaTagAdapter.ViewHold
             }
         }
 
-        //        @Override
-//        protected void onPostExecute(BitmapDrawable[] drawables) {
-//            for (int i = 0; i < 4; i++) {
-//                ImageView image = (ImageView) parent.findViewWithTag(tag + i);
-//                if (image != null && drawables[i] != null) {
-//                    image.setImageDrawable(drawables[i]);
-//                }
-//            }
-//        }
-//
-//        private Bitmap downloadBitmap(String url) {
-//            Bitmap bitmap = null;
-//            OkHttpClient client = new OkHttpClient();
-//            Request imgReq = new Request.Builder().url(url).build();
-//            try {
-//                Response res = client.newCall(imgReq).execute();
-//                bitmap = BitmapFactory.decodeStream(res.body().byteStream());
-//            } catch (IOException e) {e.printStackTrace();}
-//            return bitmap;
-//        }
-//
     }
 }
