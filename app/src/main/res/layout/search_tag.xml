@@ -1,0 +1,149 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/search_tag_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="4dp"
+    android:layout_margin="5dp">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#121212"
+        android:orientation="horizontal"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp">
+
+        <TextView
+            android:id="@+id/search_tag_circled_textview"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/circle_around_text"
+            android:gravity="center"
+            android:text="MM"
+            android:textColor="#FFF"
+            android:textSize="27sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/better_tag_visualization"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Misaka Mikoto"
+                android:textColor="#ee8887"
+                android:textSize="24sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:text="Tag: "
+                    android:textColor="#ee8887" />
+
+                <TextView
+                    android:id="@+id/post_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_corner_dark"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:text="some_tag"
+                    android:textColor="#ee8887"
+                    android:typeface="monospace" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:text="Post count: "
+                    android:textColor="#ee8887" />
+
+                <TextView
+                    android:id="@+id/post_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_corner_dark"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:text="some_tag"
+                    android:textColor="#ee8887"
+                    android:typeface="monospace" />
+
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/search_tag_preview_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_margin="10dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/fav_holder" />
+
+                    <ImageView
+                        android:id="@+id/search_tag_preview_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_margin="10dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/fav_holder" />
+
+                    <ImageView
+                        android:id="@+id/search_tag_preview_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_margin="10dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/fav_holder" />
+
+                    <ImageView
+                        android:id="@+id/search_tag_preview_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_margin="10dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/fav_holder" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

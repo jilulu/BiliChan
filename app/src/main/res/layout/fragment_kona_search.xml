@@ -10,7 +10,6 @@
         android:id="@+id/searchTools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_margin="10dp"
         android:orientation="horizontal">
 
@@ -39,20 +38,21 @@
         android:id="@+id/listViewDescriptor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tagListView"
-        android:layout_alignLeft="@+id/tagListView"
-        android:layout_alignStart="@+id/tagListView"
+        android:layout_above="@+id/tagRecycler"
+        android:layout_alignLeft="@+id/tagRecycler"
+        android:layout_alignStart="@+id/tagRecycler"
         android:layout_marginBottom="-20dp"
         android:text="Popular Posts"
         android:textColor="#ee8887"
         android:textSize="20sp" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/searchTools"
-        android:src="@drawable/mikoto"
-        />
+    <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_above="@id/searchTools"-->
+        <!--android:src="@drawable/mikoto"-->
+        <!--android:visibility="gone"-->
+        <!--/>-->
 
     <TextView
         android:id="@+id/copyright_notice"
@@ -64,15 +64,22 @@
         android:text="Image source: KonaChan"
         android:textColor="#ee8887" />
 
-    <ListView xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/tagListView"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.RecyclerView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/tagRecycler"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/copyright_notice"
         android:layout_below="@+id/searchTools"
-        android:layout_margin="29dp"
-        android:visibility="invisible"
-        tools:listitem="@layout/fragment_kona_search_tag"></ListView>
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
+        tools:listitem="@layout/search_tag"/>
+
+    <!--android:visibility="invisible"-->
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -80,8 +87,8 @@
         android:id="@+id/kona_search_fragment_progress_bar"
         android:layout_below="@id/listViewDescriptor"
         android:layout_above="@id/copyright_notice"
-        android:layout_alignLeft="@id/tagListView"
-        android:layout_alignRight="@id/tagListView">
+        android:layout_alignLeft="@id/tagRecycler"
+        android:layout_alignRight="@id/tagRecycler">
 
         <ProgressBar
             android:layout_gravity="center"

@@ -8,16 +8,16 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,7 +33,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import xyz.jilulu.bilichan.R;
-import xyz.jilulu.bilichan.activities.GalleryActivity;
 import xyz.jilulu.bilichan.activities.MainActivity;
 import xyz.jilulu.bilichan.adapters.KonaTagAdapter;
 import xyz.jilulu.bilichan.helpers.KonaTag;
@@ -44,8 +43,6 @@ import xyz.jilulu.bilichan.helpers.KonaTag;
 public class KonaFragment extends Fragment {
     KonaTagAdapter adapter;
 
-    @Bind(R.id.tagListView)
-    ListView listView;
     @Bind(R.id.search_button)
     Button searchButton;
     @Bind(R.id.searchBar)
@@ -58,6 +55,10 @@ public class KonaFragment extends Fragment {
     TextView copyright;
     @Bind(R.id.konaChanFragmentRelativeLayout)
     RelativeLayout relativeLayout;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     public KonaFragment() {
 
@@ -73,7 +74,7 @@ public class KonaFragment extends Fragment {
         int i = getArguments().getInt(MainActivity.ARG_FRAGMENT_POSITION);
         String fragmentTitle = getResources().getStringArray(R.array.fragment_title_array)[i];
         getActivity().setTitle(fragmentTitle);
-//        adapter = new ArrayAdapter<String>(rootView.getContext(), R.layout.fragment_kona_search_tag, data);
+//        adapter = new ArrayAdapter<String>(rootView.getContext(), R.layout.search_tag, data);
 //        ListView listView = (ListView) rootView.findViewById(R.id.tagListView);
 //        listView.setAdapter(adapter);
 //        listView = (ListView) rootView.findViewById(R.id.tagListView);
@@ -99,6 +100,11 @@ public class KonaFragment extends Fragment {
             }
         });
 
+
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.tagRecycler);
+        mLayoutManager = new LinearLayoutManager(rootView.getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
         return rootView;
     }
 
@@ -114,7 +120,7 @@ public class KonaFragment extends Fragment {
                 @Override
                 public void run() {
                     loadingIndicatorProgressBar.setVisibility(View.VISIBLE);
-                    listView.setVisibility(View.INVISIBLE);
+                    mRecyclerView.setVisibility(View.INVISIBLE);
                 }
             });
 
@@ -142,7 +148,7 @@ public class KonaFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
 
             loadingIndicatorProgressBar.setVisibility(View.GONE);
-            listView.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.VISIBLE);
 
             if (json_String == null || json_String.length() == 0) {
                 new AlertDialog.Builder(getContext())
@@ -168,18 +174,20 @@ public class KonaFragment extends Fragment {
                         tagArray.get(i).getAsJsonObject().get("count").getAsString());
                 data.add(tempTag);
             }
-            adapter = new KonaTagAdapter(getActivity(), R.layout.fragment_kona_search_tag, data);
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    KonaTag currentTag = data.get(position);
-                    String[] url = {currentTag.getTagName(), currentTag.getTagName()};
-                    Intent konaIntent = new Intent(getActivity(), GalleryActivity.class);
-                    konaIntent.putExtra(Intent.EXTRA_TEXT, url);
-                    startActivity(konaIntent);
-                }
-            });
+
+            mAdapter = new KonaTagAdapter(data);
+            mRecyclerView.setAdapter(mAdapter);
+
+//            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    KonaTag currentTag = data.get(position);
+//                    String[] url = {currentTag.getTagName(), currentTag.getTagName()};
+//                    Intent konaIntent = new Intent(getActivity(), GalleryActivity.class);
+//                    konaIntent.putExtra(Intent.EXTRA_TEXT, url);
+//                    startActivity(konaIntent);
+//                }
+//            });
 
         }
     }
