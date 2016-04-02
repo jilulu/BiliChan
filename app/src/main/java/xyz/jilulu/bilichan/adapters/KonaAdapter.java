@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import xyz.jilulu.bilichan.R;
 import xyz.jilulu.bilichan.activities.RevolutionaryPhotoView;
-import xyz.jilulu.bilichan.helpers.KonaObject;
+import xyz.jilulu.bilichan.helpers.data.KonaObject;
 
 /**
  * Created by jamesji on 29/2/2016.

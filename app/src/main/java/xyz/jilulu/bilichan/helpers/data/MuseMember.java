@@ -1,4 +1,4 @@
-package xyz.jilulu.bilichan.helpers;
+package xyz.jilulu.bilichan.helpers.data;
 
 /**
  * Created by jamesji on 23/2/2016.

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import xyz.jilulu.bilichan.helpers.MuseMember;
+import xyz.jilulu.bilichan.helpers.data.MuseMember;
 import xyz.jilulu.bilichan.R;
 import xyz.jilulu.bilichan.activities.MuseMemberActivity;
 

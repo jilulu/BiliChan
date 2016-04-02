@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 import xyz.jilulu.bilichan.R;
 import xyz.jilulu.bilichan.activities.RevolutionaryPhotoView;
-import xyz.jilulu.bilichan.helpers.UserfavObject;
+import xyz.jilulu.bilichan.helpers.data.UserfavObject;
 
 /**
  * Created by jamesji on 18/3/2016.

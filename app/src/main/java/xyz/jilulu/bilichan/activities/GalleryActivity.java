@@ -27,7 +27,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import xyz.jilulu.bilichan.R;
 import xyz.jilulu.bilichan.adapters.KonaAdapter;
-import xyz.jilulu.bilichan.helpers.KonaObject;
+import xyz.jilulu.bilichan.helpers.data.KonaObject;
 
 /**
  * Created by jamesji on 27/2/2016.

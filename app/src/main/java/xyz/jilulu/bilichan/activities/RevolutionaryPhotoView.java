@@ -44,10 +44,10 @@ import okio.Okio;
 import okio.Source;
 import uk.co.senab.photoview.PhotoViewAttacher;
 import xyz.jilulu.bilichan.R;
-import xyz.jilulu.bilichan.helpers.DBOperator;
-import xyz.jilulu.bilichan.helpers.FavoriteDBHelper;
-import xyz.jilulu.bilichan.helpers.FavoritePostContract;
-import xyz.jilulu.bilichan.helpers.UserfavObject;
+import xyz.jilulu.bilichan.helpers.db.DBOperator;
+import xyz.jilulu.bilichan.helpers.db.FavoriteDBHelper;
+import xyz.jilulu.bilichan.helpers.db.FavoritePostContract;
+import xyz.jilulu.bilichan.helpers.data.UserfavObject;
 
 /**
  * Created by jamesji on 3/3/2016.

@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import xyz.jilulu.bilichan.adapters.MuseMemberAdapter;
-import xyz.jilulu.bilichan.helpers.MuseMemberProfiles;
+import xyz.jilulu.bilichan.helpers.data.MuseMemberProfiles;
 import xyz.jilulu.bilichan.R;
 
 /**

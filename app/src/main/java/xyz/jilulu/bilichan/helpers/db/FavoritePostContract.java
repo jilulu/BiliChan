@@ -1,4 +1,4 @@
-package xyz.jilulu.bilichan.helpers;
+package xyz.jilulu.bilichan.helpers.db;
 
 import android.provider.BaseColumns;
 

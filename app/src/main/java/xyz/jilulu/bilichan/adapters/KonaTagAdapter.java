@@ -36,7 +36,7 @@ import okio.BufferedSource;
 import okio.Okio;
 import xyz.jilulu.bilichan.R;
 import xyz.jilulu.bilichan.activities.GalleryActivity;
-import xyz.jilulu.bilichan.helpers.KonaTag;
+import xyz.jilulu.bilichan.helpers.data.KonaTag;
 
 /**
  * Created by jamesji on 4/3/2016.

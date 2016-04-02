@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,33 +36,27 @@ import okhttp3.Response;
 import xyz.jilulu.bilichan.R;
 import xyz.jilulu.bilichan.activities.MainActivity;
 import xyz.jilulu.bilichan.adapters.KonaTagAdapter;
-import xyz.jilulu.bilichan.helpers.KonaTag;
+import xyz.jilulu.bilichan.helpers.data.KonaTag;
 
 /**
  * Created by jamesji on 4/3/2016.
  */
-public class KonaFragment extends Fragment {
+public class KonaFragment extends Fragment implements View.OnClickListener {
     KonaTagAdapter adapter;
 
-    @Bind(R.id.search_button)
-    Button searchButton;
-    @Bind(R.id.searchBar)
-    EditText mySearchBox;
-    @Bind(R.id.listViewDescriptor)
-    TextView hintText;
-    @Bind(R.id.kona_search_fragment_progress_bar)
-    FrameLayout loadingIndicatorProgressBar;
-    @Bind(R.id.copyright_notice)
-    TextView copyright;
-    @Bind(R.id.konaChanFragmentRelativeLayout)
-    RelativeLayout relativeLayout;
+    @Bind(R.id.search_button) Button searchButton;
+    @Bind(R.id.searchBar) EditText mySearchBox;
+    @Bind(R.id.listViewDescriptor) TextView hintText;
+    @Bind(R.id.kona_search_fragment_progress_bar) FrameLayout loadingIndicatorProgressBar;
+    @Bind(R.id.copyright_notice) TextView copyright;
+    @Bind(R.id.konaChanFragmentRelativeLayout) RelativeLayout relativeLayout;
 
-    private RecyclerView mRecyclerView;
+    @Bind(R.id.tagRecycler) RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private IBinder ib;
 
     public KonaFragment() {
-
     }
 
     @Nullable
@@ -74,34 +69,15 @@ public class KonaFragment extends Fragment {
         int i = getArguments().getInt(MainActivity.ARG_FRAGMENT_POSITION);
         String fragmentTitle = getResources().getStringArray(R.array.fragment_title_array)[i];
         getActivity().setTitle(fragmentTitle);
-//        adapter = new ArrayAdapter<String>(rootView.getContext(), R.layout.search_tag, data);
-//        ListView listView = (ListView) rootView.findViewById(R.id.tagListView);
-//        listView.setAdapter(adapter);
-//        listView = (ListView) rootView.findViewById(R.id.tagListView);
+
         FetchTagTask myFetchTagTask = new FetchTagTask();
         myFetchTagTask.execute();
-//        Button searchButton = (Button) rootView.findViewById(R.id.search_button);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String userInput = mySearchBox.getText().toString();
-                FetchTagTask myFetchTagTask = new FetchTagTask();
-                myFetchTagTask.execute("*" + userInput + "*");
-                hintText.setText("Search Results");
-                InputMethodManager manager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                manager.hideSoftInputFromWindow(rootView.getWindowToken(), 0);
-            }
-        });
-        copyright.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent visitKona = new Intent(Intent.ACTION_VIEW);
-                visitKona.setData(Uri.parse("http://konachan.net/help/api"));
-                startActivity(visitKona);
-            }
-        });
 
+        ib = rootView.getWindowToken();
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.tagRecycler);
+        searchButton.setOnClickListener(this);
+        copyright.setOnClickListener(this);
+
         mLayoutManager = new LinearLayoutManager(rootView.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -116,6 +92,7 @@ public class KonaFragment extends Fragment {
         @Override
         protected Void doInBackground(String... params) {
 
+            // Disable the search/recommendation results and show a rotation wheel to pacify users.
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -147,6 +124,7 @@ public class KonaFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            // Disable the rotation wheel, enable search/recommendation results.
             loadingIndicatorProgressBar.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
 
@@ -189,6 +167,22 @@ public class KonaFragment extends Fragment {
 //                }
 //            });
 
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == searchButton) {
+            String userInput = mySearchBox.getText().toString();
+            FetchTagTask myFetchTagTask = new FetchTagTask();
+            myFetchTagTask.execute("*" + userInput + "*");
+            hintText.setText(R.string.search_results);
+            InputMethodManager manager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            manager.hideSoftInputFromWindow(ib, 0);
+        } else if (v == copyright) {
+            Intent visitKona = new Intent(Intent.ACTION_VIEW);
+            visitKona.setData(Uri.parse("http://konachan.net/help/api"));
+            startActivity(visitKona);
         }
     }
 }

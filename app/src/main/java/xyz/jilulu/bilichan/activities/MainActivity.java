@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private String[] mPlanetTitles;
+    private String[] mFragmentTitles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
         // The current ActionBar title (or null).
         mTitle = mDrawerTitle = getTitle();
 
-        mPlanetTitles = getResources().getStringArray(R.array.fragment_title_array);
+        // String array containing all fragment titles.
+        mFragmentTitles = getResources().getStringArray(R.array.fragment_title_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mList = (ListView) findViewById(R.id.drawer_list_view);
         mDrawer = (LinearLayout) findViewById(R.id.real_drawer);
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
-        mList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mPlanetTitles));
+        mList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mFragmentTitles));
         mList.setOnItemClickListener(new DrawerItemClickListener());
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_websearch:
                 // create intent to perform web search for this planet
                 Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-                intent.putExtra(SearchManager.QUERY, getSupportActionBar().getTitle());
+                intent.putExtra(SearchManager.QUERY, "KonaChan");
                 // catch event that there's no activity to handle intent
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
@@ -153,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
         // update selected item and title, then close the drawer
         mList.setItemChecked(position, true);
-        setTitle(mPlanetTitles[position]);
+        setTitle(mFragmentTitles[position]);
         mDrawerLayout.closeDrawer(mDrawer);
     }
 

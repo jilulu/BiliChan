@@ -14,7 +14,7 @@ import java.util.List;
 import xyz.jilulu.bilichan.R;
 import xyz.jilulu.bilichan.activities.MainActivity;
 import xyz.jilulu.bilichan.adapters.MyAdapter;
-import xyz.jilulu.bilichan.helpers.MuseMember;
+import xyz.jilulu.bilichan.helpers.data.MuseMember;
 
 /**
  * Created by jamesji on 4/3/2016.

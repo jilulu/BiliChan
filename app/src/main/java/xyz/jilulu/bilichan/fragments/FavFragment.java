@@ -16,8 +16,8 @@ import butterknife.ButterKnife;
 import xyz.jilulu.bilichan.R;
 import xyz.jilulu.bilichan.activities.MainActivity;
 import xyz.jilulu.bilichan.adapters.FavAdapter;
-import xyz.jilulu.bilichan.helpers.DBOperator;
-import xyz.jilulu.bilichan.helpers.UserfavObject;
+import xyz.jilulu.bilichan.helpers.db.DBOperator;
+import xyz.jilulu.bilichan.helpers.data.UserfavObject;
 
 /**
  * Created by jamesji on 11/3/2016.

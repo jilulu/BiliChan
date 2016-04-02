@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import xyz.jilulu.bilichan.R;
 import xyz.jilulu.bilichan.activities.GalleryActivity;
-import xyz.jilulu.bilichan.helpers.MuseMemberProfiles;
+import xyz.jilulu.bilichan.helpers.data.MuseMemberProfiles;
 
 /**
  * Created by jamesji on 25/2/2016.
