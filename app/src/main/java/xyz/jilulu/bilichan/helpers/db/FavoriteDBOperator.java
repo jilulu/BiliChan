@@ -23,16 +23,16 @@ public class FavoriteDBOperator {
 
     public long insertEntry(int postID, String tags, String previewURL, String fullResURL, String title) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(FavoritePostContract.FavoritePost._ID, postID);
-        contentValues.put(FavoritePostContract.FavoritePost.COLUMN_NAME_TAG, tags);
-        contentValues.put(FavoritePostContract.FavoritePost.COLUMN_NAME_IMAGE_URL_PREVIEW, previewURL);
-        contentValues.put(FavoritePostContract.FavoritePost.COLUMN_NAME_IMAGE_URL, fullResURL);
-        contentValues.put(FavoritePostContract.FavoritePost.COLUMN_NAME_TITLE, title);
-        return db.insert(FavoritePostContract.FavoritePost.TABLE_NAME, null, contentValues);
+        contentValues.put(CpsvContract.FavoritePost._ID, postID);
+        contentValues.put(CpsvContract.FavoritePost.COLUMN_NAME_TAG, tags);
+        contentValues.put(CpsvContract.FavoritePost.COLUMN_NAME_IMAGE_URL_PREVIEW, previewURL);
+        contentValues.put(CpsvContract.FavoritePost.COLUMN_NAME_IMAGE_URL, fullResURL);
+        contentValues.put(CpsvContract.FavoritePost.COLUMN_NAME_TITLE, title);
+        return db.insert(CpsvContract.FavoritePost.TABLE_NAME, null, contentValues);
     }
 
     public ArrayList<UserfavObject> queryDB() {
-        userFavCursor = db.query(FavoritePostContract.FavoritePost.TABLE_NAME, null, null, null, null, null, null);
+        userFavCursor = db.query(CpsvContract.FavoritePost.TABLE_NAME, null, null, null, null, null, null);
         ArrayList<UserfavObject> favList = new ArrayList<>();
         while (userFavCursor.moveToNext()) {
             UserfavObject fav = new UserfavObject(userFavCursor.getInt(0), userFavCursor.getString(1), userFavCursor.getString(2), userFavCursor.getString(3), userFavCursor.getString(4));

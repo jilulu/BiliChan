@@ -15,13 +15,13 @@ public class FavoriteDBHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(FavoritePostContract.getSqlCreateEntries());
+        db.execSQL(CpsvContract.favCreateEntries());
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
-        db.execSQL(FavoritePostContract.getSqlDeleteEntries());
+        db.execSQL(CpsvContract.favDeleteEntries());
         onCreate(db);
     }
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
