@@ -12,11 +12,11 @@ import xyz.jilulu.bilichan.helpers.data.UserfavObject;
 /**
  * Created by jamesji on 18/3/2016.
  */
-public class DBOperator {
+public class FavoriteDBOperator {
     private SQLiteDatabase db;
     private Cursor userFavCursor;
 
-    public DBOperator (Context context) {
+    public FavoriteDBOperator(Context context) {
         FavoriteDBHelper dbHelper = new FavoriteDBHelper(context);
         db = dbHelper.getWritableDatabase();
     }
