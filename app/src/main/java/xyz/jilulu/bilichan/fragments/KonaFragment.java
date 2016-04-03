@@ -2,8 +2,11 @@ package xyz.jilulu.bilichan.fragments;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,6 +24,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
@@ -37,12 +41,12 @@ import xyz.jilulu.bilichan.R;
 import xyz.jilulu.bilichan.activities.MainActivity;
 import xyz.jilulu.bilichan.adapters.KonaTagAdapter;
 import xyz.jilulu.bilichan.helpers.data.KonaTag;
+import xyz.jilulu.bilichan.helpers.db.CpsvContract;
 
 /**
  * Created by jamesji on 4/3/2016.
  */
 public class KonaFragment extends Fragment implements View.OnClickListener {
-    KonaTagAdapter adapter;
 
     @Bind(R.id.search_button) Button searchButton;
     @Bind(R.id.searchBar) EditText mySearchBox;
@@ -88,6 +92,7 @@ public class KonaFragment extends Fragment implements View.OnClickListener {
         private ArrayList<KonaTag> data = new ArrayList<>();
         private final String[] url_json = {"http://konachan.net/tag.json?name=", "&type=4&order=count"};
         private String json_String;
+        private Cursor cacheCursor;
 
         @Override
         protected Void doInBackground(String... params) {
@@ -101,24 +106,38 @@ public class KonaFragment extends Fragment implements View.OnClickListener {
                 }
             });
 
-            OkHttpClient client = new OkHttpClient();
-            String param;
-            try {
-                param = params[0];
-            } catch (ArrayIndexOutOfBoundsException e) {
-                param = "";
-            }
-            String url = url_json[0] + param + url_json[1];
-            Log.d("OKHTTP", url);
-            Request request = new Request.Builder().url(url).build();
+            Cursor posts = getContext().getContentResolver().query(CpsvContract.KonaPost.CONTENT_URI, null, null, null, null);
+            if (posts != null && posts.getCount() != 0) {
 
-            try {
-                Response response = client.newCall(request).execute();
-                json_String = response.body().string();
-            } catch (IOException e) {
-                Log.e("OKHTTP", e.toString());
+                cacheCursor = posts;
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "Query Successful! ", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                return null;
+            } else {
+                OkHttpClient client = new OkHttpClient();
+                String param;
+                try {
+                    param = params[0];
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    param = "";
+                }
+                String url = url_json[0] + param + url_json[1];
+                Log.d("OKHTTP", url);
+                Request request = new Request.Builder().url(url).build();
+
+                try {
+                    Response response = client.newCall(request).execute();
+                    json_String = response.body().string();
+                } catch (IOException e) {
+                    Log.e("OKHTTP", e.toString());
+                }
+                return null;
             }
-            return null;
         }
 
         @Override
@@ -128,7 +147,7 @@ public class KonaFragment extends Fragment implements View.OnClickListener {
             loadingIndicatorProgressBar.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
 
-            if (json_String == null || json_String.length() == 0) {
+            if ((json_String == null || json_String.length() == 0) && cacheCursor == null) {
                 new AlertDialog.Builder(getContext())
                         .setTitle("Warning")
                         .setMessage("BiliChan requires an active Internet connection to function normally. ")
@@ -145,28 +164,30 @@ public class KonaFragment extends Fragment implements View.OnClickListener {
                 return;
             }
 
-            JsonParser parser = new JsonParser();
-            final JsonArray tagArray = parser.parse(json_String).getAsJsonArray();
-            for (int i = 0; i < tagArray.size(); i++) {
-                KonaTag tempTag = new KonaTag(tagArray.get(i).getAsJsonObject().get("name").getAsString(),
-                        tagArray.get(i).getAsJsonObject().get("count").getAsString());
-                data.add(tempTag);
+            if (cacheCursor == null && json_String != null) {
+                ContentResolver res = getContext().getContentResolver();
+                JsonParser parser = new JsonParser();
+                final JsonArray tagArray = parser.parse(json_String).getAsJsonArray();
+                for (int i = 0; i < tagArray.size(); i++) {
+                    KonaTag tempTag = new KonaTag(tagArray.get(i).getAsJsonObject().get("name").getAsString(),
+                            tagArray.get(i).getAsJsonObject().get("count").getAsString());
+                    data.add(tempTag);
+                    ContentValues cv = new ContentValues();
+                    cv.put(CpsvContract.KonaPost.COLUMN_NAME_TAGNAME, tagArray.get(i).getAsJsonObject().get("name").getAsString());
+                    cv.put(CpsvContract.KonaPost.COLUMN_NAME_COUNT, tagArray.get(i).getAsJsonObject().get("count").getAsInt());
+                    res.insert(CpsvContract.KonaPost.CONTENT_URI, cv);
+                }
+            } else if (cacheCursor != null && json_String == null) {
+                while (cacheCursor.moveToNext()) {
+                    int tag = cacheCursor.getColumnIndex(CpsvContract.KonaPost.COLUMN_NAME_TAGNAME);
+                    int cnt = cacheCursor.getColumnIndex(CpsvContract.KonaPost.COLUMN_NAME_COUNT);
+                    data.add(new KonaTag(cacheCursor.getString(tag), Integer.toString(cacheCursor.getInt(cnt))));
+                }
+                cacheCursor.close();
             }
 
-            mAdapter = new KonaTagAdapter(data);
+            mAdapter = new KonaTagAdapter(data, getContext());
             mRecyclerView.setAdapter(mAdapter);
-
-//            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    KonaTag currentTag = data.get(position);
-//                    String[] url = {currentTag.getTagName(), currentTag.getTagName()};
-//                    Intent konaIntent = new Intent(getActivity(), GalleryActivity.class);
-//                    konaIntent.putExtra(Intent.EXTRA_TEXT, url);
-//                    startActivity(konaIntent);
-//                }
-//            });
-
         }
     }
 
