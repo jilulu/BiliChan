@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 import xyz.jilulu.bilichan.R;
 import xyz.jilulu.bilichan.activities.MainActivity;
 import xyz.jilulu.bilichan.adapters.FavAdapter;
-import xyz.jilulu.bilichan.helpers.db.DBOperator;
+import xyz.jilulu.bilichan.helpers.db.FavoriteDBOperator;
 import xyz.jilulu.bilichan.helpers.data.UserfavObject;
 
 /**
@@ -42,7 +42,7 @@ public class FavFragment extends Fragment {
         String fragmentTitle = getResources().getStringArray(R.array.fragment_title_array)[i];
         getActivity().setTitle(fragmentTitle);
 
-        DBOperator dbOp = new DBOperator(getActivity());
+        FavoriteDBOperator dbOp = new FavoriteDBOperator(getActivity());
         fav = dbOp.queryDB();
         dbOp.closeDB();
 
@@ -56,7 +56,7 @@ public class FavFragment extends Fragment {
     }
 
     public void notifyAdapterDataChanged() {
-        DBOperator dbOp = new DBOperator(getActivity());
+        FavoriteDBOperator dbOp = new FavoriteDBOperator(getActivity());
         fav.clear();
         fav.addAll(dbOp.queryDB());
         adapter.notifyDataSetChanged();
