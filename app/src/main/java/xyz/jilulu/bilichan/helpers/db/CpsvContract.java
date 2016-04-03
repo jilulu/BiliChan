@@ -1,5 +1,6 @@
 package xyz.jilulu.bilichan.helpers.db;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
@@ -8,6 +9,11 @@ import android.provider.BaseColumns;
 public class CpsvContract {
     public CpsvContract() {
     }
+
+    public static final String CONTENT_AUTHORITY = "xyz.jilulu.bilichan";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    public static final String KONA_POST = "konapost";
+    public static final String POST_ITEMS = "posts";
 
     public static abstract class FavoritePost implements BaseColumns {
         public static final String TABLE_NAME = "post";
@@ -21,6 +27,7 @@ public class CpsvContract {
         public static final String TABLE_NAME = "indexPost";
         public static final String COLUMN_NAME_TAGNAME = "tag_name";
         public static final String COLUMN_NAME_COUNT = "count";
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(KONA_POST).build();
     }
 
     private static final String TEXT_TYPE = " TEXT";
@@ -38,7 +45,7 @@ public class CpsvContract {
             "CREATE TABLE " + KonaPost.TABLE_NAME + " (" +
                     KonaPost._ID + " INTEGER PRIMARY KEY," +
                     KonaPost.COLUMN_NAME_TAGNAME + TEXT_TYPE + COMMA_SEP +
-                    KonaPost.COLUMN_NAME_COUNT + " INTEGER" + COMMA_SEP +
+                    KonaPost.COLUMN_NAME_COUNT + " INTEGER" +
                     ")";
 
     private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + FavoritePost.TABLE_NAME;
