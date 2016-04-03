@@ -44,9 +44,9 @@ import okio.Okio;
 import okio.Source;
 import uk.co.senab.photoview.PhotoViewAttacher;
 import xyz.jilulu.bilichan.R;
-import xyz.jilulu.bilichan.helpers.db.DBOperator;
+import xyz.jilulu.bilichan.helpers.db.FavoriteDBOperator;
 import xyz.jilulu.bilichan.helpers.db.FavoriteDBHelper;
-import xyz.jilulu.bilichan.helpers.db.FavoritePostContract;
+import xyz.jilulu.bilichan.helpers.db.CpsvContract;
 import xyz.jilulu.bilichan.helpers.data.UserfavObject;
 
 /**
@@ -111,7 +111,7 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
     private boolean queryForCurrentEntry() {
         FavoriteDBHelper dbHelper = new FavoriteDBHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query(FavoritePostContract.FavoritePost.TABLE_NAME, null, FavoritePostContract.FavoritePost._ID + " = " + currentID, null, null, null, null);
+        Cursor cursor = db.query(CpsvContract.FavoritePost.TABLE_NAME, null, CpsvContract.FavoritePost._ID + " = " + currentID, null, null, null, null);
         boolean favd =  cursor.moveToFirst() && cursor.getCount() != 0;
         cursor.close();
         db.close();
@@ -121,7 +121,7 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
     private void removeCurrentEntry(MenuItem item) {
         FavoriteDBHelper dbHelper = new FavoriteDBHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        db.delete(FavoritePostContract.FavoritePost.TABLE_NAME, FavoritePostContract.FavoritePost._ID + " = " + currentID, null);
+        db.delete(CpsvContract.FavoritePost.TABLE_NAME, CpsvContract.FavoritePost._ID + " = " + currentID, null);
         db.close();
         item.setIcon(R.drawable.icon_fav);
         Toast.makeText(RevolutionaryPhotoView.this, "Removed from favorites", Toast.LENGTH_SHORT).show();
@@ -156,7 +156,7 @@ public class RevolutionaryPhotoView extends AppCompatActivity {
 
     private void favorite() {
         UserfavObject obj = new UserfavObject(Integer.parseInt(extras[0]), extras[1], extras[2], extras[3], extras[4]);
-        DBOperator dbOp = new DBOperator(context);
+        FavoriteDBOperator dbOp = new FavoriteDBOperator(context);
         dbOp.insertEntry(obj.getPostID(), obj.getTag(), obj.getPrevURL(), obj.getFullURL(), obj.getTitle());
         dbOp.closeDB();
         Toast.makeText(RevolutionaryPhotoView.this, "Added to favorites", Toast.LENGTH_SHORT).show();
