@@ -19,7 +19,7 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_margin="10dp"
-            android:background="@drawable/circle_around_text"
+            android:background="@drawable/circle_around_text_1"
             android:gravity="center"
             android:text="MM"
             android:textColor="#FFF"

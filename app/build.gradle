@@ -36,4 +36,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.android.support:support-v4:23.2.1'
     compile 'org.apmem.tools:layouts:1.10@aar'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'io.reactivex:rxjava:1.1.0'
 }
