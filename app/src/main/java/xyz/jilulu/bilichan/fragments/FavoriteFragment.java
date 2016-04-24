@@ -1,9 +1,11 @@
 package xyz.jilulu.bilichan.Fragments;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +22,15 @@ import xyz.jilulu.bilichan.R;
 /**
  * Created by jamesji on 24/4/2016.
  */
-public class FavoriteFragment extends android.support.v4.app.Fragment {
+public class FavoriteFragment extends Fragment {
 
     @Bind(R.id.fav_recycler)
     RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     ArrayList<UserFavObject> fav;
+    private Integer postCount = null;
+    FavoriteDBOperator dbOp;
 
     public FavoriteFragment() {
     }
@@ -40,9 +44,9 @@ public class FavoriteFragment extends android.support.v4.app.Fragment {
 //        String fragmentTitle = getResources().getStringArray(R.array.fragment_title_array)[i];
 //        getActivity().setTitle(fragmentTitle);
 
-        FavoriteDBOperator dbOp = new FavoriteDBOperator(getActivity());
+        dbOp = new FavoriteDBOperator(getActivity());
+        postCount = dbOp.queryFavCount();
         fav = dbOp.queryDB();
-        dbOp.closeDB();
 
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(rootView.getContext());
@@ -52,8 +56,16 @@ public class FavoriteFragment extends android.support.v4.app.Fragment {
 
         return rootView;
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (postCount != null && postCount != dbOp.queryFavCount()) {
+            notifyAdapterDataChanged();
+        }
+    }
 
     public void notifyAdapterDataChanged() {
+        Log.d("FavoriteFragment", "Reloaded dataset. ");
         FavoriteDBOperator dbOp = new FavoriteDBOperator(getActivity());
         fav.clear();
         fav.addAll(dbOp.queryDB());

@@ -5,4 +5,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_hint">Try \'saber\'</string>
     <string name="misaka_imoto_desctiption">Misaka Imoto Image</string>
+    <string name="hd_res_cache">Automatically cache high resolution images</string>
+    <string name="hd_res_cache_summary">Allow BiliChan to cache high-res pictures to your internal storage. This may speed up image load, but would take up more space.</string>
+    <string name="about">Developed by James Ji, all rights reserved.</string>
 </resources>

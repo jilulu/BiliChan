@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Main">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="hd_res_cache"
+            android:summary="@string/hd_res_cache_summary"
+            android:title="@string/hd_res_cache" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Miscellaneous">
+        <PreferenceScreen
+            android:key="open_source_libraries"
+            android:summary="BiliChan wouldn't have been made possible without these wonderful-quality, highly reliable libraries. "
+            android:title="Open Source Libraries" />
+        <PreferenceScreen
+            android:key="about"
+            android:summary="@string/about"
+            android:title="About" />
+    </PreferenceCategory>
+    <!--<ListPreference-->
+    <!--android:dependency="pref_sync"-->
+    <!--android:key="pref_syncConnectionType"-->
+    <!--android:title="@string/pref_syncConnectionType"-->
+    <!--android:dialogTitle="@string/pref_syncConnectionType"-->
+    <!--android:entries="@array/pref_syncConnectionTypes_entries"-->
+    <!--android:entryValues="@array/pref_syncConnectionTypes_values"-->
+    <!--android:defaultValue="@string/pref_syncConnectionTypes_default" />-->
+</PreferenceScreen>

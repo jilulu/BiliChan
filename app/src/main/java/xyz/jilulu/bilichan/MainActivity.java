@@ -3,7 +3,6 @@ package xyz.jilulu.bilichan;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -15,7 +14,7 @@ import xyz.jilulu.bilichan.Adapters.MainActivityFragmentAdapter;
 
 public class MainActivity extends FragmentActivity {
 
-    private FragmentPagerAdapter fragmentPagerAdapter;
+    private android.support.v13.app.FragmentPagerAdapter fragmentPagerAdapter;
     private ViewPager viewPager;
 
     public static final int NUMBER_OF_FRAGMENTS = 4;
@@ -31,16 +30,16 @@ public class MainActivity extends FragmentActivity {
     private void initUI() {
         viewPager = (ViewPager) findViewById(R.id.activity_main_view_pager_horizontal_ntb);
 
-        fragmentPagerAdapter = new MainActivityFragmentAdapter(getSupportFragmentManager());
+        fragmentPagerAdapter = new MainActivityFragmentAdapter(getFragmentManager());
         viewPager.setAdapter(fragmentPagerAdapter);
 
-        final String[] colors = getResources().getStringArray(R.array.default_preview);
+        final String[] colors = getResources().getStringArray(R.array.tabcolors);
         final NavigationTabBar navigationTabBar = (NavigationTabBar) findViewById(R.id.activity_main_ntb_horizontal);
         final ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
         models.add(new NavigationTabBar.Model(getResources().getDrawable(R.drawable.ic_search), Color.parseColor(colors[0]), "Search"));
-        models.add(new NavigationTabBar.Model(getResources().getDrawable(R.drawable.ic_second), Color.parseColor(colors[1]), "Discover"));
-        models.add(new NavigationTabBar.Model(getResources().getDrawable(R.drawable.ic_third), Color.parseColor(colors[2]), "Favorites"));
-        models.add(new NavigationTabBar.Model(getResources().getDrawable(R.drawable.ic_fourth), Color.parseColor(colors[3]), "Preferences"));
+        models.add(new NavigationTabBar.Model(getResources().getDrawable(R.drawable.ic_discover), Color.parseColor(colors[1]), "Discover"));
+        models.add(new NavigationTabBar.Model(getResources().getDrawable(R.drawable.ic_fav_main), Color.parseColor(colors[2]), "Favorites"));
+        models.add(new NavigationTabBar.Model(getResources().getDrawable(R.drawable.ic_pref), Color.parseColor(colors[3]), "Preferences"));
         navigationTabBar.setModels(models);
         navigationTabBar.setViewPager(viewPager);
 

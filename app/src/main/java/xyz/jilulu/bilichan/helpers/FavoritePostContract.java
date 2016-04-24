@@ -6,7 +6,8 @@ import android.provider.BaseColumns;
  * Created by jamesji on 24/4/2016.
  */
 public class FavoritePostContract {
-    public FavoritePostContract() {}
+    public FavoritePostContract() {
+    }
 
     public static abstract class FavoritePost implements BaseColumns {
         public static final String TABLE_NAME = "post";

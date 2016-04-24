@@ -9,7 +9,7 @@ public class UserFavObject implements Serializable {
     private int postID;
     private String tag, prevURL, fullURL, title;
 
-    public UserFavObject (int postID, String tag, String prevURL, String fullURL, String title) {
+    public UserFavObject(int postID, String tag, String prevURL, String fullURL, String title) {
         this.postID = postID;
         this.tag = tag;
         this.prevURL = prevURL;

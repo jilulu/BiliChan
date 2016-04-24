@@ -11,7 +11,7 @@
         android:id="@+id/activity_main_view_pager_horizontal_ntb"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/activity_main_wrapper_ntb_horizontal"/>
+        android:layout_above="@+id/activity_main_wrapper_ntb_horizontal" />
 
     <FrameLayout
         android:id="@+id/activity_main_wrapper_ntb_horizontal"
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_gravity="bottom"
-            android:background="#f2f2f2"/>
+            android:background="#eee"/>
 
         <com.gigamole.library.NavigationTabBar
             android:id="@+id/activity_main_ntb_horizontal"
@@ -38,7 +38,7 @@
             app:ntb_badged="false"
             app:ntb_scaled="true"
             app:ntb_title_mode="all"
-            app:ntb_titled="true"/>
+            app:ntb_titled="true" />
 
     </FrameLayout>
 

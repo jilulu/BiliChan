@@ -14,6 +14,7 @@ public class FavoriteDBHelper extends SQLiteOpenHelper {
     public FavoriteDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(FavoritePostContract.getSqlCreateEntries());
     }
@@ -24,6 +25,7 @@ public class FavoriteDBHelper extends SQLiteOpenHelper {
         db.execSQL(FavoritePostContract.getSqlDeleteEntries());
         onCreate(db);
     }
+
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
     }

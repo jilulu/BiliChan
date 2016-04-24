@@ -84,7 +84,7 @@ public class PhotoActivity extends AppCompatActivity {
         url = favObj.getFullURL();
         currentID = favObj.getPostID();
 
-        imageDownload dl = new imageDownload();
+        ImageDownloadTask dl = new ImageDownloadTask();
 
         dl.execute(url);
 
@@ -112,7 +112,7 @@ public class PhotoActivity extends AppCompatActivity {
         FavoriteDBHelper dbHelper = new FavoriteDBHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor cursor = db.query(FavoritePostContract.FavoritePost.TABLE_NAME, null, FavoritePostContract.FavoritePost._ID + " = " + currentID, null, null, null, null);
-        boolean favd =  cursor.moveToFirst() && cursor.getCount() != 0;
+        boolean favd = cursor.moveToFirst() && cursor.getCount() != 0;
         cursor.close();
         db.close();
         return (favd);
@@ -135,6 +135,7 @@ public class PhotoActivity extends AppCompatActivity {
             case R.id.save:
                 try {
                     saveToDisk();
+                    saveToCache();
                 } catch (IOException e) {
                     Log.e("OKIO", e.toString());
                 }
@@ -153,11 +154,40 @@ public class PhotoActivity extends AppCompatActivity {
         return true;
     }
 
+    private boolean cacheToLocalStorage = false;
+
     private void favorite() {
         FavoriteDBOperator dbOp = new FavoriteDBOperator(context);
         dbOp.insertEntry(favObj.getPostID(), favObj.getTag(), favObj.getPrevURL(), favObj.getFullURL(), favObj.getTitle());
         dbOp.closeDB();
         Toast.makeText(PhotoActivity.this, "Added to favorite", Toast.LENGTH_SHORT).show();
+        if (bmpBytes != null) {
+            try {
+                saveToCache();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            cacheToLocalStorage = true;
+        }
+    }
+
+    private boolean saveToCache() throws IOException {
+        if (bmpBytes == null)
+            return false;
+        String fileName = Integer.toString(favObj.getPostID());
+        File file = new File(getCacheDir(), fileName + ".png");
+        BufferedSink cacheFileBufferedSink = Okio.buffer(Okio.sink(file));
+        cacheFileBufferedSink.write(bmpBytes);
+        cacheFileBufferedSink.close();
+        return true;
+    }
+
+    @Nullable
+    private byte[] fetchFromCache() throws IOException {
+        File file = new File(getCacheDir(), favObj.getPostID() + ".png");
+        if (!file.exists()) return null;
+        return Okio.buffer(Okio.source(file)).readByteArray();
     }
 
     private boolean saveToDisk() throws IOException {
@@ -225,9 +255,9 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     private Bitmap bmp;
-    private byte[] bmpBytes;
+    private byte[] bmpBytes = null;
 
-    private class imageDownload extends AsyncTask<String, Void, Void> {
+    private class ImageDownloadTask extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... params) {
             try {
@@ -254,6 +284,11 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     public Bitmap run(String url) throws Exception {
+
+        bmpBytes = fetchFromCache();
+        if (bmpBytes != null)
+            return BitmapFactory.decodeByteArray(bmpBytes, 0, bmpBytes.length);
+
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -293,6 +328,9 @@ public class PhotoActivity extends AppCompatActivity {
 
         bmpBytes = response.body().bytes();
         Bitmap bmp = BitmapFactory.decodeByteArray(bmpBytes, 0, bmpBytes.length);
+
+        if (cacheToLocalStorage) saveToCache();
+
         return bmp;
     }
 

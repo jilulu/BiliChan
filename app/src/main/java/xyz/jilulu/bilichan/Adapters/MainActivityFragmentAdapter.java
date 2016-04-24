@@ -1,11 +1,14 @@
 package xyz.jilulu.bilichan.Adapters;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.support.v13.app.FragmentPagerAdapter;
+
+import xyz.jilulu.bilichan.Fragments.DiscoverFragment;
 import xyz.jilulu.bilichan.Fragments.FavoriteFragment;
 import xyz.jilulu.bilichan.Fragments.SearchFragment;
+import xyz.jilulu.bilichan.Fragments.SettingsFragment;
 import xyz.jilulu.bilichan.MainActivity;
 
 /**
@@ -23,11 +26,11 @@ public class MainActivityFragmentAdapter extends FragmentPagerAdapter {
             case 0:
                 return new SearchFragment();
             case 1:
-                return new SearchFragment();
+                return new DiscoverFragment();
             case 2:
                 return new FavoriteFragment();
             case 3:
-                return new SearchFragment();
+                return new SettingsFragment();
             default:
                 return null;
         }

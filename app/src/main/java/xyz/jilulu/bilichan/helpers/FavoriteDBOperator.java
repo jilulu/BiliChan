@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class FavoriteDBOperator {
     private SQLiteDatabase db;
 
-    public FavoriteDBOperator (Context context) {
+    public FavoriteDBOperator(Context context) {
         FavoriteDBHelper dbHelper = new FavoriteDBHelper(context);
         db = dbHelper.getWritableDatabase();
     }
@@ -37,6 +37,13 @@ public class FavoriteDBOperator {
         }
         userFavCursor.close();
         return favList;
+    }
+
+    public int queryFavCount() {
+        Cursor cursor = db.query(FavoritePostContract.FavoritePost.TABLE_NAME, null, null, null, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
     }
 
     public void closeDB() {

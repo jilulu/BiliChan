@@ -122,7 +122,7 @@ public class GalleryActivity extends AppCompatActivity {
                 findViewById(R.id.activity_gallery_progress_bar).setVisibility(View.GONE);
                 mRecyclerView.setVisibility(View.VISIBLE);
             } else { // List has scrolled to nearly bottom. Remove the trailing null element , append
-                     // new dataset, and notify change.
+                // new dataset, and notify change.
                 konaObjectArrayList.remove(konaObjectArrayList.size() - 1);
                 konaObjectArrayList.addAll(parseKonaObjects(array));
                 mAdapter.notifyDataSetChanged();

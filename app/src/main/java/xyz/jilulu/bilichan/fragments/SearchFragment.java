@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -36,7 +35,7 @@ import xyz.jilulu.bilichan.GalleryActivity;
 import xyz.jilulu.bilichan.Helpers.KonaTag;
 import xyz.jilulu.bilichan.R;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends android.app.Fragment {
 
     public static final String EXTRA = "This GalleryActivity fired up by Search Fragment";
     SearchFragmentTagAdapter adapter;
