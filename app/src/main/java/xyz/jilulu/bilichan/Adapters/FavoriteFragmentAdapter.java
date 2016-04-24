@@ -68,8 +68,7 @@ public class FavoriteFragmentAdapter extends RecyclerView.Adapter<FavoriteFragme
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), PhotoActivity.class);
-                intent.putExtra(Intent.EXTRA_TEXT,
-                        new String[]{"" + currentFav.getPostID(), currentFav.getTag(), currentFav.getPrevURL(), currentFav.getFullURL(), currentFav.getTitle()});
+                intent.putExtra(GalleryActivityRecyclerAdapter.EXTRA, currentFav);
                 v.getContext().startActivity(intent);
             }
         });

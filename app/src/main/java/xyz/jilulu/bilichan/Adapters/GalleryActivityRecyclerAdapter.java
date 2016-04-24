@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import xyz.jilulu.bilichan.Helpers.KonaObject;
+import xyz.jilulu.bilichan.Helpers.UserFavObject;
 import xyz.jilulu.bilichan.PhotoActivity;
 import xyz.jilulu.bilichan.R;
 
@@ -29,6 +30,7 @@ import xyz.jilulu.bilichan.R;
 public class GalleryActivityRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private String tag;
     private ArrayList<KonaObject> mDataset;
+    public static final String EXTRA = xyz.jilulu.bilichan.Adapters.GalleryActivityRecyclerAdapter.class.getName();
 
     public static class CardHolder extends RecyclerView.ViewHolder {
         public CardView mCardView;
@@ -109,7 +111,9 @@ public class GalleryActivityRecyclerAdapter extends RecyclerView.Adapter<Recycle
                 @Override
                 public void onClick(View v) {
                     Intent revolutionaryIntent = new Intent(v.getContext(), PhotoActivity.class);
-                    revolutionaryIntent.putExtra(Intent.EXTRA_TEXT, new String[] {"" + obj.getId(), obj.getTags(), obj.getPreviewURL(), obj.getFullSizeURL(), tag});
+                    /*revolutionaryIntent.putExtra(Intent.EXTRA_TEXT, new String[] {"" + obj.getId(), obj.getTags(), obj.getPreviewURL(), obj.getFullSizeURL(), tag});*/
+                    UserFavObject photoObj = new UserFavObject(obj.getId(), obj.getTags(), obj.getPreviewURL(), obj.getFullSizeURL(), tag);
+                    revolutionaryIntent.putExtra(EXTRA, photoObj);
                     v.getContext().startActivity(revolutionaryIntent);
                 }
             });

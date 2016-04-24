@@ -1,9 +1,11 @@
 package xyz.jilulu.bilichan.Helpers;
 
+import java.io.Serializable;
+
 /**
  * Created by jamesji on 24/4/2016.
  */
-public class UserFavObject {
+public class UserFavObject implements Serializable {
     private int postID;
     private String tag, prevURL, fullURL, title;
 

@@ -3,7 +3,6 @@ package xyz.jilulu.bilichan;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -44,6 +43,7 @@ import okio.ForwardingSource;
 import okio.Okio;
 import okio.Source;
 import uk.co.senab.photoview.PhotoViewAttacher;
+import xyz.jilulu.bilichan.Adapters.GalleryActivityRecyclerAdapter;
 import xyz.jilulu.bilichan.Helpers.FavoriteDBHelper;
 import xyz.jilulu.bilichan.Helpers.FavoriteDBOperator;
 import xyz.jilulu.bilichan.Helpers.FavoritePostContract;
@@ -64,7 +64,7 @@ public class PhotoActivity extends AppCompatActivity {
     private Matrix mCurrentDisplayMatrix = null;
 
     private String url;
-    private String[] extras;
+    private UserFavObject favObj;
     private int currentID;
 
     private Context context;
@@ -80,9 +80,9 @@ public class PhotoActivity extends AppCompatActivity {
 
         final ImageView mImageView = (ImageView) findViewById(R.id.iv_photo);
         mCurrMatrixTv = (TextView) findViewById(R.id.tv_current_matrix);
-        extras = getIntent().getStringArrayExtra(Intent.EXTRA_TEXT);
-        url = extras[3];
-        currentID = Integer.parseInt(extras[0]);
+        favObj = (UserFavObject) getIntent().getSerializableExtra(GalleryActivityRecyclerAdapter.EXTRA);
+        url = favObj.getFullURL();
+        currentID = favObj.getPostID();
 
         imageDownload dl = new imageDownload();
 
@@ -154,9 +154,8 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     private void favorite() {
-        UserFavObject obj = new UserFavObject(Integer.parseInt(extras[0]), extras[1], extras[2], extras[3], extras[4]);
         FavoriteDBOperator dbOp = new FavoriteDBOperator(context);
-        dbOp.insertEntry(obj.getPostID(), obj.getTag(), obj.getPrevURL(), obj.getFullURL(), obj.getTitle());
+        dbOp.insertEntry(favObj.getPostID(), favObj.getTag(), favObj.getPrevURL(), favObj.getFullURL(), favObj.getTitle());
         dbOp.closeDB();
         Toast.makeText(PhotoActivity.this, "Added to favorite", Toast.LENGTH_SHORT).show();
     }
