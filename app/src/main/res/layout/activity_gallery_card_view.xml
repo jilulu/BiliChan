@@ -19,8 +19,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/gallery_placeholder"
             android:adjustViewBounds="true" />
+        <!--android:src="@drawable/gallery_placeholder"-->
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
                 android:layout_margin="5dp"
                 android:text="Some text"
                 android:layout_toRightOf="@id/gallery_card_author_title"
-                android:background="@drawable/rounded_corner"
+                android:background="@drawable/bg_rounded_corner"
                 android:padding="3sp"
                 android:textColor="#000"
                 android:id="@+id/gallery_card_author" />
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="Some text"
-                android:background="@drawable/rounded_corner"
+                android:background="@drawable/bg_rounded_corner"
                 android:padding="3sp"
                 android:textColor="#000"
                 android:id="@+id/gallery_card_size"
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:src="@drawable/view_cloud_downloading"
+            android:src="@drawable/ic_downloading"
             android:id="@+id/gallery_card_status_icon"
             android:paddingRight="5dp" />
     </LinearLayout>

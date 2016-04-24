@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xyz.jilulu.bilifun="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/save"
+        android:title="Save"
+        xyz.jilulu.bilifun:showAsAction="always"
+        android:icon="@drawable/ic_download" />
+    <item android:id="@+id/favorite"
+        android:title="Favorite"
+        xyz.jilulu.bilifun:showAsAction = "always"
+        android:icon="@drawable/ic_fav"/>
+</menu>
