@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="#fff"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5sp"
+        android:text="Tag: "
+        android:textColor="#777" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rounded_corner_dark"
+        android:padding="5sp"
+        android:text="some_tag"
+        android:id="@+id/tag_kona_search_post_tag"
+        android:textColor="#444"
+        android:typeface="monospace"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5sp"
+        android:text="Post count"
+        android:textColor="#777" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rounded_corner_dark"
+        android:padding="5sp"
+        android:text="some_tag"
+        android:id="@+id/tag_kona_search_post_count"
+        android:textColor="#444"
+        android:typeface="monospace"/>
+
+</LinearLayout>

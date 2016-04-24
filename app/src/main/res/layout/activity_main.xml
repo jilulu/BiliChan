@@ -1,41 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity">
+    android:background="#fff"
+    android:orientation="vertical">
 
-    <!-- The main content view -->
-    <FrameLayout
+    <android.support.v4.view.ViewPager
+        android:id="@+id/activity_main_view_pager_horizontal_ntb"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/content_frame"></FrameLayout>
+        android:layout_above="@+id/activity_main_wrapper_ntb_horizontal"/>
 
+    <FrameLayout
+        android:id="@+id/activity_main_wrapper_ntb_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_gravity="start"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:id="@+id/real_drawer">
-
-        <ImageView
+        <View
+            android:id="@+id/activity_main_bg_ntb_horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/konachan_net_lg_std"
-            android:background="#222"
-            android:adjustViewBounds="true" />
+            android:layout_height="52dp"
+            android:layout_gravity="bottom"
+            android:background="#f2f2f2"/>
 
-        <ListView
-            android:id="@+id/drawer_list_view"
+        <com.gigamole.library.NavigationTabBar
+            android:id="@+id/activity_main_ntb_horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"
-            android:background="#FFF" />
-    </LinearLayout>
+            android:layout_height="52dp"
+            app:ntb_preview_colors="@array/tabcolors"
+            app:ntb_active_color="#fff"
+            app:ntb_inactive_color="#777"
+            app:ntb_badge_gravity="top"
+            app:ntb_badge_position="right"
+            app:ntb_badged="false"
+            app:ntb_scaled="true"
+            app:ntb_title_mode="all"
+            app:ntb_titled="true"/>
 
+    </FrameLayout>
 
-</android.support.v4.widget.DrawerLayout>
+</RelativeLayout>
