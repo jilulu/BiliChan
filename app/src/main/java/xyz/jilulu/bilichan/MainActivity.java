@@ -5,20 +5,25 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.Button;
 
 import com.gigamole.library.NavigationTabBar;
 
 import java.util.ArrayList;
 
 import xyz.jilulu.bilichan.Adapters.MainActivityFragmentAdapter;
+import xyz.jilulu.bilichan.Fragments.EmptyFavoriteFragment;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements EmptyFavoriteFragment.EmptyFragmentPlaceHolder.OnNavigationButtonClicked {
 
     private android.support.v13.app.FragmentPagerAdapter fragmentPagerAdapter;
     private ViewPager viewPager;
 
     public static final int NUMBER_OF_FRAGMENTS = 4;
     public static final int SEARCH_FRAGMENT = 0;
+    public static final int DISCOVER_FRAGMENT = 1;
+    public static final int FAVORITE_FRAGMENT = 2;
+    public static final int PREFERENCE_FRAGMENT = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +32,27 @@ public class MainActivity extends FragmentActivity {
         initUI();
     }
 
+    @Override
+    public void onButtonClicked(View v) {
+        String buttonText = ((Button) v).getText().toString();
+        int pageNum;
+        switch (buttonText.charAt(0)) {
+            case 'S': // Search
+                pageNum = SEARCH_FRAGMENT;
+                break;
+            case 'D':
+                pageNum = DISCOVER_FRAGMENT;
+                break;
+            default:
+                pageNum = -1;
+                break;
+        }
+        viewPager.setCurrentItem(pageNum);
+    }
+
     private void initUI() {
         viewPager = (ViewPager) findViewById(R.id.activity_main_view_pager_horizontal_ntb);
+        viewPager.setOffscreenPageLimit(NUMBER_OF_FRAGMENTS);
 
         fragmentPagerAdapter = new MainActivityFragmentAdapter(getFragmentManager());
         viewPager.setAdapter(fragmentPagerAdapter);

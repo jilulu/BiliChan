@@ -1,0 +1,33 @@
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/fragment_empty_favorite_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="No favorite posts at the moment. \nTry the following options and discover your favorite!"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/fragment_empty_favorite_search_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_empty_favorite_text_view"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:text="Search" />
+
+    <Button
+        android:id="@+id/fragment_empty_favorite_discover_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_empty_favorite_search_button"
+        android:layout_centerHorizontal="true"
+        android:text="Discover" />
+
+</RelativeLayout>

@@ -6,7 +6,7 @@ import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
 import xyz.jilulu.bilichan.Fragments.DiscoverFragment;
-import xyz.jilulu.bilichan.Fragments.FavoriteFragment;
+import xyz.jilulu.bilichan.Fragments.EmptyFavoriteFragment;
 import xyz.jilulu.bilichan.Fragments.SearchFragment;
 import xyz.jilulu.bilichan.Fragments.SettingsFragment;
 import xyz.jilulu.bilichan.MainActivity;
@@ -23,13 +23,13 @@ public class MainActivityFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0:
+            case MainActivity.SEARCH_FRAGMENT:
                 return new SearchFragment();
-            case 1:
+            case MainActivity.DISCOVER_FRAGMENT:
                 return new DiscoverFragment();
-            case 2:
-                return new FavoriteFragment();
-            case 3:
+            case MainActivity.FAVORITE_FRAGMENT:
+                return new EmptyFavoriteFragment();
+            case MainActivity.PREFERENCE_FRAGMENT:
                 return new SettingsFragment();
             default:
                 return null;
