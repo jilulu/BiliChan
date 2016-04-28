@@ -2,6 +2,7 @@ package xyz.jilulu.bilichan.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,13 +26,14 @@ import xyz.jilulu.bilichan.R;
  */
 public class FavoriteFragmentAdapter extends RecyclerView.Adapter<FavoriteFragmentAdapter.ViewHolder> {
     private ArrayList<UserFavObject> userfavObjectArrayList;
+    private Typeface robotoSlab;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         public TextView misakaText;
         public ImageView misakaImage;
         public CardView cv;
         public FlowLayout tagContainer;
-
         public ViewHolder(View cardView) {
             super(cardView);
             misakaText = (TextView) cardView.findViewById(R.id.misaka_text);
@@ -55,8 +57,11 @@ public class FavoriteFragmentAdapter extends RecyclerView.Adapter<FavoriteFragme
     @Override
     public void onBindViewHolder(FavoriteFragmentAdapter.ViewHolder holder, int position) {
         Context commonContext = holder.cv.getContext();
+        if (robotoSlab == null)
+            robotoSlab = Typeface.createFromAsset(commonContext.getAssets(), "robotoslab_regular.ttf");
         final UserFavObject currentFav = userfavObjectArrayList.get(position);
         holder.misakaText.setText(currentFav.getTitle());
+        holder.misakaText.setTypeface(robotoSlab);
         Picasso.with(commonContext).load(currentFav.getPrevURL()).into(holder.misakaImage);
         String[] tags = currentFav.getTag().split(" ");
         for (String tag : tags) {
