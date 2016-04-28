@@ -6,6 +6,11 @@
             android:key="hd_res_cache"
             android:summary="@string/hd_res_cache_summary"
             android:title="@string/hd_res_cache" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="compact_discovery"
+            android:title="@string/compact_discovery_title"
+            android:summary="@string/compact_discovery_summary"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="Miscellaneous">
         <PreferenceScreen

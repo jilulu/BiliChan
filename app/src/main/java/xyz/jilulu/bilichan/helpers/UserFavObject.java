@@ -2,6 +2,8 @@ package xyz.jilulu.bilichan.Helpers;
 
 import java.io.Serializable;
 
+import xyz.jilulu.bilichan.Models.ExploreItems;
+
 /**
  * Created by jamesji on 24/4/2016.
  */
@@ -14,6 +16,14 @@ public class UserFavObject implements Serializable {
         this.tag = tag;
         this.prevURL = prevURL;
         this.fullURL = fullURL;
+        this.title = title;
+    }
+
+    public UserFavObject(ExploreItems.ExploreItem exploreItem, String title) {
+        this.postID = exploreItem.id;
+        this.tag = exploreItem.tags;
+        this.prevURL = exploreItem.preview_url;
+        this.fullURL = exploreItem.jpeg_url;
         this.title = title;
     }
 

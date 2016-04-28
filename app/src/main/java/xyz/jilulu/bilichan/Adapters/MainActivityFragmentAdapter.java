@@ -16,28 +16,59 @@ import xyz.jilulu.bilichan.MainActivity;
  */
 public class MainActivityFragmentAdapter extends FragmentPagerAdapter {
 
+    private SearchFragment searchFragment;
+    private DiscoverFragment discoverFragment;
+    private EmptyFavoriteFragment emptyFavoriteFragment;
+    private SettingsFragment settingsFragment;
+
     public MainActivityFragmentAdapter(FragmentManager fm) {
         super(fm);
     }
 
-    @Override
-    public Fragment getItem(int position) {
+    public Fragment retrieveItem(int position) {
         switch (position) {
             case MainActivity.SEARCH_FRAGMENT:
-                return new SearchFragment();
+                return searchFragment;
             case MainActivity.DISCOVER_FRAGMENT:
-                return new DiscoverFragment();
+                return discoverFragment;
             case MainActivity.FAVORITE_FRAGMENT:
-                return new EmptyFavoriteFragment();
+                return emptyFavoriteFragment;
             case MainActivity.PREFERENCE_FRAGMENT:
-                return new SettingsFragment();
+                return settingsFragment;
             default:
                 return null;
         }
     }
 
     @Override
+    public Fragment getItem(int position) {
+        switch (position) {
+            case MainActivity.SEARCH_FRAGMENT:
+                searchFragment = new SearchFragment();
+                return searchFragment;
+            case MainActivity.DISCOVER_FRAGMENT:
+                discoverFragment = new DiscoverFragment();
+                return discoverFragment;
+            case MainActivity.FAVORITE_FRAGMENT:
+                emptyFavoriteFragment = new EmptyFavoriteFragment();
+                return emptyFavoriteFragment;
+            case MainActivity.PREFERENCE_FRAGMENT:
+                settingsFragment = new SettingsFragment();
+                return settingsFragment;
+            default:
+                return null;
+        }
+
+    }
+
+    @Override
     public int getCount() {
         return MainActivity.NUMBER_OF_FRAGMENTS;
     }
+
+//    @Override
+//    public Object instantiateItem(ViewGroup container, int position) {
+//        Fragment createdFragment = (Fragment) super.instantiateItem(container, position);
+//
+//    }
 }

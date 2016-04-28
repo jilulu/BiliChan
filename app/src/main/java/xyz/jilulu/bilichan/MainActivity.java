@@ -16,7 +16,7 @@ import xyz.jilulu.bilichan.Fragments.EmptyFavoriteFragment;
 
 public class MainActivity extends FragmentActivity implements EmptyFavoriteFragment.EmptyFragmentPlaceHolder.OnNavigationButtonClicked {
 
-    private android.support.v13.app.FragmentPagerAdapter fragmentPagerAdapter;
+    public MainActivityFragmentAdapter fragmentPagerAdapter;
     private ViewPager viewPager;
 
     public static final int NUMBER_OF_FRAGMENTS = 4;
