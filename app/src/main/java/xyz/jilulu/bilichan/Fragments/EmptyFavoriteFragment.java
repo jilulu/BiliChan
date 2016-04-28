@@ -1,5 +1,7 @@
 package xyz.jilulu.bilichan.Fragments;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -80,12 +82,22 @@ public class EmptyFavoriteFragment extends Fragment {
             return rootView;
         }
 
+        @TargetApi(23)
         @Override
         public void onAttach(Context context) {
             super.onAttach(context);
-
             try{
                 callBack = (OnNavigationButtonClicked) getActivity();
+            } catch (ClassCastException e) {
+                throw new RuntimeException(getActivity().toString() + " must implement OnNavigationButtonClicked");
+            }
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            try {
+                callBack = (OnNavigationButtonClicked) activity;
             } catch (ClassCastException e) {
                 throw new RuntimeException(getActivity().toString() + " must implement OnNavigationButtonClicked");
             }
