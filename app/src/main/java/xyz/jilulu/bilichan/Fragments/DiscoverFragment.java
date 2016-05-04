@@ -28,9 +28,7 @@ import xyz.jilulu.bilichan.R;
  * Created by jamesji on 25/4/2016.
  */
 public class DiscoverFragment extends Fragment implements Callback<ExploreItems> {
-
-    public static final String posts_to_explore = "http://konachan.net/post.json?tags=holds:false%20%20limit:100&api_version=2&filter=1&include_tags=1&include_votes=1&include_pools=1";
-
+//    public static final String posts_to_explore = "http://konachan.net/post.json?tags=holds:false%20%20limit:100&api_version=2&filter=1&include_tags=1&include_votes=1&include_pools=1";
     @Bind(R.id.fragment_discover_recycler_view)
     public RecyclerView mRecyclerView;
     public RecyclerView.Adapter mAdapter;
