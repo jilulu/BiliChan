@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="xyz.jilulu.bilichan">
+    package="com.jilulux.bilichan">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:largeHeap="true">
         <activity
-            android:name=".MainActivity"
+            android:name="com.jilulux.bilichan.MainActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:windowSoftInputMode="adjustNothing|stateHidden"
             android:screenOrientation="portrait">
@@ -30,10 +30,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GalleryActivity"
+            android:name="com.jilulux.bilichan.GalleryActivity"
             android:theme="@style/Theme.AppCompat.DayNight" />
         <activity
-            android:name=".PhotoActivity"
+            android:name="com.jilulux.bilichan.PhotoActivity"
             android:theme="@style/Theme.AppCompat.DayNight" />
     </application>
 
