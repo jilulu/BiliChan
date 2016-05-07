@@ -6,19 +6,17 @@ import com.google.gson.JsonObject;
  * Created by jamesji on 23/4/2016.
  */
 public class KonaObject {
-    private JsonObject konaJsonEntry;
     private String tags, author, fullSizeURL, previewURL, largeSizeURL;
     private int fileSize, id;
 
     public KonaObject(JsonObject jo) {
-        konaJsonEntry = jo;
-        tags = konaJsonEntry.get("tags").getAsString();
-        id = konaJsonEntry.get("id").getAsInt();
-        author = konaJsonEntry.get("author").getAsString();
-        fullSizeURL = konaJsonEntry.get("file_url").getAsString();
-        previewURL = konaJsonEntry.get("preview_url").getAsString();
-        largeSizeURL = konaJsonEntry.get("sample_url").getAsString();
-        fileSize = konaJsonEntry.get("file_size").getAsInt();
+        tags = jo.get("tags").getAsString();
+        id = jo.get("id").getAsInt();
+        author = jo.get("author").getAsString();
+        fullSizeURL = jo.get("file_url").getAsString();
+        previewURL = jo.get("preview_url").getAsString();
+        largeSizeURL = jo.get("sample_url").getAsString();
+        fileSize = jo.get("file_size").getAsInt();
     }
 
     public String getTags() {

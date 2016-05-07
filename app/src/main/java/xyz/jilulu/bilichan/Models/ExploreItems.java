@@ -9,12 +9,14 @@ public class ExploreItems {
     public List<ExploreItem> posts;
 
     public class ExploreItem {
-//        private int postID;
+        //        private int postID;
 //        private String tag, prevURL, fullURL, title;
         public int id;
+        public int jpeg_file_size;
         public String tags;
         public String author;
         public String preview_url;
         public String jpeg_url;
+
     }
 }

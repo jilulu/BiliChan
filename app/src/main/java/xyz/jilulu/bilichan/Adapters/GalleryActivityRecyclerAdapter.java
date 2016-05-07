@@ -1,9 +1,5 @@
 package xyz.jilulu.bilichan.Adapters;
 
-/**
- * Created by jamesji on 24/4/2016.
- */
-
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -14,11 +10,24 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 import xyz.jilulu.bilichan.Helpers.KonaObject;
 import xyz.jilulu.bilichan.Helpers.UserFavObject;
 import xyz.jilulu.bilichan.PhotoActivity;
@@ -28,9 +37,11 @@ import xyz.jilulu.bilichan.R;
  * Created by jamesji on 29/2/2016.
  */
 public class GalleryActivityRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private OnDataSetLoaded callback;
     private String tag;
-    private ArrayList<KonaObject> mDataset;
+    public ArrayList<KonaObject> mDataset = new ArrayList<>();
     public static final String EXTRA = xyz.jilulu.bilichan.Adapters.GalleryActivityRecyclerAdapter.class.getName();
+    private CompositeSubscription compositeSubscription = new CompositeSubscription();
 
     public static class CardHolder extends RecyclerView.ViewHolder {
         public CardView mCardView;
@@ -56,29 +67,31 @@ public class GalleryActivityRecyclerAdapter extends RecyclerView.Adapter<Recycle
         }
     }
 
-    public GalleryActivityRecyclerAdapter(ArrayList<KonaObject> dataset, String tag) {
-        mDataset = dataset;
+    public GalleryActivityRecyclerAdapter(String tag, OnDataSetLoaded callback) {
+        this.callback = callback;
         this.tag = tag;
+
+        addSubscription();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        if (viewType == 1) {
-            return new ProgressHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_gallery_card_view_progress_item, parent, false));
-        }
-        // create a new view
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_gallery_card_view, parent, false);
-        // set the view's size, margins, paddings and layout parameters
-        // ...
-        CardHolder vh = new CardHolder((CardView) v);
-        return vh;
+        if (viewType == ViewTypes.PROGRESS_ITEM)
+            return new ProgressHolder(
+                    LayoutInflater.from(parent.getContext())
+                            .inflate(R.layout.activity_gallery_card_view_progress_item, parent, false)
+            );
+        else if (viewType == ViewTypes.CARD_VIEW)
+            return new CardHolder(
+                    (CardView) LayoutInflater.from(parent.getContext())
+                            .inflate(R.layout.activity_gallery_card_view, parent, false)
+            );
+        return null;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return mDataset.get(position) != null ? 0 : 1;
+        return mDataset.get(position) == null ? ViewTypes.PROGRESS_ITEM : ViewTypes.CARD_VIEW;
     }
 
     @Override
@@ -125,5 +138,92 @@ public class GalleryActivityRecyclerAdapter extends RecyclerView.Adapter<Recycle
     @Override
     public int getItemCount() {
         return mDataset.size();
+    }
+
+    public PostFetcher postFetcher;
+
+    public Observable<ArrayList<KonaObject>> getObservable() {
+        return Observable.create(new Observable.OnSubscribe<ArrayList<KonaObject>>() {
+            @Override
+            public void call(Subscriber<? super ArrayList<KonaObject>> subscriber) {
+                ArrayList<KonaObject> konaObjects;
+                if (postFetcher == null) postFetcher = new PostFetcher(tag);
+                try {
+                    konaObjects = postFetcher.fetchItems();
+                    subscriber.onNext(konaObjects);
+                    subscriber.onCompleted();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    private class PostFetcher {
+
+        private OkHttpClient client = new OkHttpClient();
+        private JsonParser parser = new JsonParser();
+
+        private int pageNumber = 1;
+        private String url;
+
+        public PostFetcher(String title) {
+            url = "http://konachan.net/post.json?tags=" + title +
+                    "%20order:score%20rating:safe" + "&page=";
+        }
+
+        public ArrayList<KonaObject> fetchItems() throws IOException {
+            String currentURL = url + pageNumber++;
+            String jsonString = client.newCall(new Request.Builder().url(currentURL).build())
+                    .execute().body().string();
+            JsonArray jsonArray = parser.parse(jsonString).getAsJsonArray();
+            ArrayList<KonaObject> konaObjects = new ArrayList<>(jsonArray.size());
+            for (JsonElement jsonElement : jsonArray) {
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                konaObjects.add(new KonaObject(jsonObject));
+            }
+            return konaObjects;
+        }
+    }
+
+    public void nextPage() {
+//        Log.d("nextPage()", "triggered");
+        mDataset.add(null);
+        notifyDataSetChanged();
+        addSubscription();
+    }
+
+    public void addSubscription() {
+        compositeSubscription.add(getObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ArrayList<KonaObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        callback.dataSetLoaded();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(ArrayList<KonaObject> konaObjects) {
+                        if (mDataset.size() != 0) mDataset.remove(null);
+                        mDataset.addAll(konaObjects);
+                        notifyDataSetChanged();
+                    }
+                })
+        );
+    }
+
+    public interface OnDataSetLoaded {
+        void dataSetLoaded();
+    }
+
+    private static final class ViewTypes {
+        static final int PROGRESS_ITEM = 0;
+        static final int CARD_VIEW = 1;
     }
 }
