@@ -1,7 +1,5 @@
 # BiliChan
 
-![Screenshot1](http://jilulu.github.io/feature.png)
-
 ### BiliChan is an unofficial client for [KonaChan](konachan.com) 
 
 You can explore and discover the pictures of your favorite anime character (be it Saber or Misaka Mikoto), 
